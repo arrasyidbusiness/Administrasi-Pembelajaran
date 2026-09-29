@@ -1,0 +1,26 @@
+PANDUAN CEPAT GITHUB PAGES + SUPABASE
+
+A. GITHUB
+1. Login GitHub.
+2. New repository.
+3. Beri nama, misalnya: sistem-administrasi-pembelajaran.
+4. Upload semua isi paket V4.4.2 ini.
+5. Pastikan index.html berada di root, bukan di dalam folder tambahan.
+6. Settings > Pages > Deploy from a branch.
+7. main > /(root) > Save.
+8. Tunggu sampai URL GitHub Pages aktif.
+
+B. SUPABASE
+1. Buka project Supabase yang digunakan aplikasi.
+2. Authentication > Users: pastikan akun guru tersedia/terkonfirmasi.
+3. SQL Editor: jalankan file SQL setup di folder supabase jika belum pernah dijalankan.
+4. Jangan menggunakan Service Role Key di GitHub.
+
+C. PENGUJIAN
+Perangkat 1:
+Login > Simpan ke Cloud.
+
+Perangkat 2:
+Buka URL GitHub Pages > Login akun sama > Ambil dari Cloud.
+
+Jika data yang sama muncul, sinkronisasi lintas perangkat berhasil.

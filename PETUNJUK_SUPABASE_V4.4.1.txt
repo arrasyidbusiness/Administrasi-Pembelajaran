@@ -1,0 +1,26 @@
+EDUGURU / SISTEM ADMINISTRASI PEMBELAJARAN V4.4.1 — SUPABASE LOGIN FIX
+
+Perbaikan utama:
+1. Fungsi cloudSignIn yang hilang dikembalikan.
+2. Fungsi saveCloudSession, restoreCloudSession, cloudUI, dan cloudSignOut dikembalikan.
+3. Sesi login disimpan dan dipulihkan saat aplikasi dibuka kembali.
+4. Simpan ke Cloud sekarang juga menyimpan state aplikasi lengkap ke app_settings.setting_value.appState.
+5. Ambil dari Cloud memulihkan state lengkap bila backup V4.4.1 tersedia; data relasional kelas/siswa tetap menjadi fallback.
+6. Endpoint REST tetap memakai token pengguna dan refresh token bila sesi kedaluwarsa.
+
+SETUP SEKALI DI SUPABASE:
+- Buka Supabase project yang URL-nya sama dengan CLOUD_URL di HTML.
+- Buka SQL Editor.
+- Jalankan file SUPABASE_SETUP_V4.4.1.sql.
+- Authentication > Providers > Email harus aktif.
+- Jika Confirm email aktif, akun baru harus klik link konfirmasi sebelum Masuk.
+
+UJI:
+1. Buka HTML melalui GitHub Pages/localhost (lebih disarankan daripada file://).
+2. Cloud Sync > Tes Koneksi.
+3. Daftar Akun bila belum punya akun, lalu konfirmasi email jika diminta.
+4. Masuk.
+5. Tekan Simpan ke Cloud.
+6. Buka perangkat/browser lain, Masuk dengan akun sama, lalu Ambil dari Cloud.
+
+Catatan: file media biner yang disimpan di IndexedDB perangkat belum diunggah ke Supabase Storage. Metadata media ikut tersimpan dalam state cloud.
