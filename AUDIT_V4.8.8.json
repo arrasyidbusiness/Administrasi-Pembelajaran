@@ -1,0 +1,14 @@
+{
+  "version": "V4.8.8",
+  "planning_flow": "Meeting Map → PROMES → PROTA",
+  "meeting_map_crud": [
+    "Tambah",
+    "Edit",
+    "Hapus"
+  ],
+  "cascade": "Every Meeting Map change rebuilds PROMES and aggregates PROTA, then updates Master Final canonical snapshot",
+  "master_final_editable": true,
+  "cloud_and_daily_transactions": "unchanged",
+  "javascript": "PASS",
+  "errors": []
+}
