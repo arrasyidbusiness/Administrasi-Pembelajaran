@@ -1,7 +1,7 @@
 {
   "app": "EDUGURU",
-  "version": "V4.8.8",
-  "build": "meetingmap-promes-prota",
-  "sha256": "e8355e0243fab30d2aa3d8b124295be9d706df80f54ca93d2b043e191d81ca00",
-  "built_at": "2026-09-30T21:14:34.574791+00:00"
+  "version": "V4.9.9",
+  "build": "promes-check-active",
+  "sha256": "8b6dd001ebc96eae08a723c0b4c10a613bd5f72f4c37ea403e47e034782966a0",
+  "built_at": "2026-09-30T23:20:32.511226+00:00"
 }

@@ -1,0 +1,10 @@
+{
+  "version": "V4.9.9",
+  "promes_check_editor": "ACTIVE",
+  "interaction": "click ✓ M# to edit month/week; blank week removes placement",
+  "native_plus_buttons": "enabled",
+  "cascade": "PROMES placement → Meeting Map → PROTA → Master Final",
+  "program_layout": "V4.9.8 clean layout retained",
+  "javascript": "PASS",
+  "errors": []
+}
