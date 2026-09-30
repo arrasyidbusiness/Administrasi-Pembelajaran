@@ -1,17 +1,11 @@
-# EDUGURU V4.5.18 — GitHub Pages Ready
+# EDUGURU V4.5.19 — GitHub Clean Build
 
-## Upload ke GitHub
-Upload isi folder/ZIP ini langsung ke root repository:
-- index.html
-- .nojekyll
-- README.md
-- VERSION.json
+PENTING:
+1. Hapus index.html lama di root repository.
+2. Upload SELURUH isi ZIP ini ke root repository (bukan folder pembungkus).
+3. Pastikan index.html yang tampil di GitHub berisi teks `EDUGURU V4.5.19`.
+4. Settings → Pages → source: main / (root).
+5. Tunggu deployment selesai, lalu buka situs dengan hard refresh / private window.
 
-Lalu aktifkan:
-Settings → Pages → Deploy from a branch → main → /(root)
-
-Catatan:
-- Jangan upload folder pembungkus tambahan bila ingin index.html langsung terbaca.
-- Jika mengganti versi lama, replace index.html di root repository.
-- Hard refresh browser setelah deploy (Ctrl+Shift+R).
-- Tidak ada service worker agar versi lama tidak tertahan cache aplikasi.
+File `404.html` sengaja sama dengan index.html agar GitHub Project Pages tetap membuka aplikasi.
+Tidak memakai service worker sehingga build lama tidak ditahan oleh cache aplikasi.
