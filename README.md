@@ -1,8 +1,17 @@
-# EDUGURU V4.5.18
-Critical stability patch:
-- Menghapus monkey-patch render V4.5.17 yang berisiko membuat halaman tidak berfungsi.
-- Responsive memakai CSS + table wrapper non-invasif.
-- Muat Master Final Pengaturan self-healing.
-- Backup Master Final JSON lengkap.
-- Ringkasan backup CSV.
-- JSON backup dapat dibaca kembali oleh importer Master.
+# EDUGURU V4.5.18 — GitHub Pages Ready
+
+## Upload ke GitHub
+Upload isi folder/ZIP ini langsung ke root repository:
+- index.html
+- .nojekyll
+- README.md
+- VERSION.json
+
+Lalu aktifkan:
+Settings → Pages → Deploy from a branch → main → /(root)
+
+Catatan:
+- Jangan upload folder pembungkus tambahan bila ingin index.html langsung terbaca.
+- Jika mengganti versi lama, replace index.html di root repository.
+- Hard refresh browser setelah deploy (Ctrl+Shift+R).
+- Tidak ada service worker agar versi lama tidak tertahan cache aplikasi.

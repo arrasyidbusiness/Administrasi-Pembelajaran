@@ -1,0 +1,8 @@
+{
+  "app": "EDUGURU",
+  "version": "4.5.18",
+  "build": "github-pages-ready",
+  "built_at": "2026-09-30T06:54:59.398466+00:00",
+  "index_sha256": "b642e3d9ee785662b621d33837424b4d81634367f3a7ca983fc6e72101e3fe53",
+  "entrypoint": "index.html"
+}
