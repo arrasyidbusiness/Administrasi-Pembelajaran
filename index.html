@@ -36,6 +36,13 @@ footer{padding:20px;text-align:center;color:var(--muted)}
 @media(max-width:950px){.app{grid-template-columns:1fr}aside{height:auto;position:relative}.nav{display:grid;grid-template-columns:repeat(2,1fr)}.nav .sep{grid-column:1/-1}.top{position:relative}.g4,.g3,.g2{grid-template-columns:1fr}.page{padding:14px}}
 @media print{aside,.top,.no-print,footer{display:none!important}.app{display:block}.page{display:none!important}.page.printing{display:block!important;padding:0;max-width:none}.card{box-shadow:none;border:0}.print-title{display:block!important}body{background:#fff} @page{size:A4 portrait;margin:15mm}}
 .print-title{display:none}
+
+/* V4.5.5 PRESENSI CLEAN */
+#presensi{max-width:100%;overflow:hidden}.pres-head,.pres-card{margin-bottom:14px!important;border:1px solid #e5eaf0!important;border-radius:15px!important;box-shadow:0 3px 12px rgba(15,23,42,.045)!important;padding:17px!important}
+.pres-title-row,.pres-card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.pres-title-row h2,.pres-card-head h3{margin:0 0 3px}.pres-filter{gap:12px!important;margin-top:13px}.pres-filter label{font-size:12px;font-weight:700;display:block;margin-bottom:5px}.pres-filter select{height:40px;border-radius:9px}.legend{font-size:12px;color:#64748b;font-weight:600}
+.att-scroll{width:100%;max-width:100%;overflow:auto;border:1px solid #e5e7eb;border-radius:11px;margin-top:10px;-webkit-overflow-scrolling:touch}.att-table{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;font-size:11px}.att-table th,.att-table td{height:31px;padding:4px;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;text-align:center;background:#fff}.att-table th{position:sticky;top:0;z-index:3;background:#f8fafc;color:#334155}.att-table .fix-no{position:sticky;left:0;width:40px;min-width:40px;z-index:4}.att-table .fix-name{position:sticky;left:40px;width:185px;min-width:185px;max-width:185px;text-align:left;padding-left:9px;z-index:4}.att-table th.fix-no,.att-table th.fix-name{z-index:6;background:#f8fafc}.att-table .day{width:30px;min-width:30px;font-weight:700;cursor:pointer}.st-h{color:#15803d}.st-s{background:#fff7d6!important;color:#92400e}.st-i{background:#eaf3ff!important;color:#1d4ed8}.st-a{background:#ffeded!important;color:#b91c1c}
+.meeting-numbers{display:flex;flex-wrap:wrap;gap:3px;padding:9px 10px;margin:10px 0;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px}.meeting-num{border:0;background:transparent;padding:4px 6px;font-weight:800;color:#64748b;cursor:pointer}.meeting-num.done{color:#16a34a}.status-box{margin:0!important;min-height:40px}#semesterTableV455{overflow:auto;margin-top:8px}#semesterTableV455 table{width:100%;min-width:620px;border-collapse:collapse}#semesterTableV455 th,#semesterTableV455 td{padding:7px;border:1px solid #e5e7eb;text-align:center}#semesterTableV455 th{background:#f8fafc}
+@media(max-width:700px){.pres-head,.pres-card{padding:12px!important}.pres-filter{grid-template-columns:1fr!important}.pres-title-row .actions,.pres-card-head .actions{width:100%}.pres-title-row .actions .btn,.pres-card-head .actions .btn{flex:1}.att-table .fix-no{width:34px;min-width:34px}.att-table .fix-name{left:34px;width:135px;min-width:135px;max-width:135px}.att-table{font-size:10px}.att-table .day{width:28px;min-width:28px}}
 </style>
 
 <style id="modern-dashboard-upgrade">
@@ -322,19 +329,39 @@ body.soft-theme{--bg:#eef6ff;background:#eef6ff}body.side-mini .app{grid-templat
 
 <div id="jr-recap" class="sub"><div id="journalRecapV34"></div></div>
 </div></section>
-  <section class="page" id="presensi"><div class="card">
-<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
- <div><h2>✅ Daftar Hadir</h2><p class="muted">Nama siswa otomatis dari Data Utama • Wali kelas otomatis • Cetak A4 portrait satu halaman per kelas</p></div>
- <div class="actions"><button class="btn alt" onclick="ensureAttendanceV35(true)">↻ Sinkronkan Siswa</button><button class="btn good" onclick="previewAttendanceV35()">🖨 Preview / Cetak</button></div>
+  <section class="page" id="presensi">
+<div class="card pres-head">
+  <div class="pres-title-row">
+    <div><h2>✅ Daftar Hadir</h2><p class="muted">Presensi harian, status pertemuan, rekap bulanan dan semester.</p></div>
+    <div class="actions"><button class="btn alt" onclick="ensureAttendanceV35(true)">↻ Sinkronkan Siswa</button><button class="btn good" onclick="previewAttendanceV455()">🖨 View / Cetak Bulanan</button></div>
+  </div>
+  <div class="grid g3 pres-filter">
+    <div><label>Kelas</label><select id="attendanceClassV35" onchange="renderAttendanceV35()"></select></div>
+    <div><label>Bulan</label><select id="attendanceMonthV35" onchange="renderAttendanceV35()"></select></div>
+    <div><label>Semester</label><select id="attendanceSemV455" onchange="renderAttendanceV35()"><option value="1">Semester 1</option><option value="2">Semester 2</option></select></div>
+  </div>
 </div>
-<div class="grid g3">
- <div><label>Kelas</label><select id="attendanceClassV35" onchange="renderAttendanceV35()"></select></div>
- <div><label>Bulan</label><select id="attendanceMonthV35" onchange="renderAttendanceV35()"></select></div>
- <div><label>Semester</label><select id="attendanceSemV35" onchange="renderAttendanceV35()"><option value="1">Semester 1</option><option value="2">Semester 2</option></select></div>
+
+<div class="card pres-card">
+  <div class="pres-card-head"><div><h3>Presensi Bulanan</h3><p class="muted">Klik status pada tanggal untuk mengubah H → S → I → A → H.</p></div><div class="legend">H Hadir • S Sakit • I Izin • A Alpa</div></div>
+  <div id="attendanceSheetV35"></div>
 </div>
-<div class="notice"><b>Kode:</b> H = Hadir • S = Sakit • I = Izin • A = Alpa. Klik sel untuk mengganti status. Format cetak dipadatkan otomatis agar satu kelas tetap satu halaman portrait.</div>
-<div id="attendanceSheetV35"></div>
-</div></section>
+
+<div class="card pres-card">
+  <div class="pres-card-head"><div><h3>✓ Status Pertemuan</h3><p class="muted">Nomor hijau berarti presensi pertemuan tersebut sudah selesai.</p></div><button class="btn good" onclick="markMeetingV455()">✓ Tandai Sudah Presensi</button></div>
+  <div id="meetingNumbersV455" class="meeting-numbers"></div>
+  <div class="grid g3 pres-filter">
+    <div><label>Pertemuan</label><select id="meetingSelectV455" onchange="renderMeetingStatusV455()"></select></div>
+    <div><label>Tanggal</label><select id="meetingDayV455"></select></div>
+    <div><label>Status</label><div id="meetingStatusV455" class="notice status-box">Belum ditandai.</div></div>
+  </div>
+</div>
+
+<div class="card pres-card">
+  <div class="pres-card-head"><div><h3>📊 Rekap Presensi Semester</h3><p class="muted">Akumulasi otomatis dari seluruh bulan pada semester terpilih.</p></div><div class="actions"><button class="btn alt" onclick="renderSemesterV455()">↻ Perbarui</button><button class="btn good" onclick="printSemesterV455()">🖨 Cetak Semester</button></div></div>
+  <div id="semesterInfoV455"></div><div id="semesterTableV455"></div>
+</div>
+</section>
   <section class="page" id="nilai"><div class="card">
 <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
  <div><h2>📊 Daftar Nilai</h2><p class="muted">Siswa otomatis dari Data Utama • TP/KKTP terhubung • Rekap & tindak lanjut otomatis</p></div>
@@ -964,20 +991,22 @@ function attendanceClassStudentsV35(cid){return (state.students||[]).filter(s=>!
 function attendanceCycleV35(v){return v==='H'?'S':v==='S'?'I':v==='I'?'A':'H'}
 function setAttendanceV35(sid,day){
  const cid=document.getElementById('attendanceClassV35').value,mi=document.getElementById('attendanceMonthV35').value;
- ensureAttendanceV35();let r=state.attendanceV35[cid][mi][sid]||{};r[day]=attendanceCycleV35(r[day]||'H');state.attendanceV35[cid][mi][sid]=r;persist();renderAttendanceV35()
+ ensureAttendanceV35();let r=state.attendanceV35[cid][mi][sid]||{};r[day]=attendanceCycleV35(r[day]||'H');state.attendanceV35[cid][mi][sid]=r;persist();queueAutoSyncV455();renderAttendanceV35()
 }
 function attendanceSummaryV35(r){
  let z={H:0,S:0,I:0,A:0};Object.values(r||{}).forEach(v=>{if(z[v]!==undefined)z[v]++});return z
 }
 function renderAttendanceV35(){
  ensureAttendanceV35();
- const cs=document.getElementById('attendanceClassV35'),ms=document.getElementById('attendanceMonthV35');if(!cs||!ms)return;
- let oc=cs.value,om=ms.value;cs.innerHTML=(state.classes||[]).map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');if(oc)cs.value=oc;
- ms.innerHTML=ATT_MONTHS_V35.map((x,i)=>`<option value="${i+1}">${x}</option>`).join('');if(om)ms.value=om;else ms.value='1';
+ const cs=document.getElementById('attendanceClassV35'),ms=document.getElementById('attendanceMonthV35'),ss=document.getElementById('attendanceSemV455');if(!cs||!ms)return;
+ const oldC=cs.value,oldM=ms.value,oldS=ss?.value||'1';
+ cs.innerHTML=(state.classes||[]).map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');if(oldC)cs.value=oldC;
+ ms.innerHTML=ATT_MONTHS_V35.map((x,i)=>`<option value="${i+1}">${x}</option>`).join('');if(oldM)ms.value=oldM;else ms.value='1';if(ss)ss.value=oldS;
  const cid=cs.value,mi=ms.value,cls=(state.classes||[]).find(c=>c.id===cid),stud=attendanceClassStudentsV35(cid),data=state.attendanceV35[cid]?.[mi]||{},box=document.getElementById('attendanceSheetV35');if(!box)return;
  if(!cls){box.innerHTML='<div class="notice">Belum ada kelas pada Data Utama.</div>';return}
- const days=Array.from({length:31},(_,i)=>i+1);
- box.innerHTML=`<div class="card" style="margin-top:12px"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><b>Kelas ${esc(cls.name)}</b><div class="muted">Wali Kelas: ${esc(cls.homeroom||'—')}</div></div><div class="muted">${esc(ATT_MONTHS_V35[+mi-1])}</div></div><div style="overflow:auto;margin-top:10px"><table class="data-table" style="font-size:10px"><thead><tr><th>No</th><th style="min-width:150px">Nama Siswa</th>${days.map(d=>`<th>${d}</th>`).join('')}<th>H</th><th>S</th><th>I</th><th>A</th></tr></thead><tbody>${stud.map((s,i)=>{let r=data[s.id]||{},sum=attendanceSummaryV35(r);return `<tr><td>${i+1}</td><td>${esc(s.name)}</td>${days.map(d=>`<td style="cursor:pointer;text-align:center" onclick="setAttendanceV35('${s.id}',${d})">${esc(r[d]||'H')}</td>`).join('')}<td>${sum.H}</td><td>${sum.S}</td><td>${sum.I}</td><td>${sum.A}</td></tr>`}).join('')||'<tr><td colspan="37">Belum ada siswa pada kelas ini.</td></tr>'}</tbody></table></div></div>`;
+ const days=Array.from({length:daysMonthV455(+mi)},(_,i)=>i+1);
+ box.innerHTML=`<div class="att-scroll"><table class="att-table"><thead><tr><th class="fix-no">No</th><th class="fix-name">Nama Peserta Didik</th>${days.map(d=>`<th class="day">${d}</th>`).join('')}<th>H</th><th>S</th><th>I</th><th>A</th></tr></thead><tbody>${stud.map((s,i)=>{let r=data[s.id]||{},sum=attendanceSummaryV35(r);return `<tr><td class="fix-no">${i+1}</td><td class="fix-name">${esc(s.name)}</td>${days.map(d=>`<td class="day st-${esc((r[d]||'H').toLowerCase())}" onclick="setAttendanceV35('${s.id}',${d})">${esc(r[d]||'H')}</td>`).join('')}<td>${sum.H}</td><td>${sum.S}</td><td>${sum.I}</td><td>${sum.A}</td></tr>`}).join('')||`<tr><td colspan="${days.length+6}">Belum ada data siswa.</td></tr>`}</tbody></table></div>`;
+ renderMeetingV455();renderSemesterV455();
 }
 function previewAttendanceV35(){
  ensureAttendanceV35();const cid=document.getElementById('attendanceClassV35')?.value,mi=document.getElementById('attendanceMonthV35')?.value||'1',sem=document.getElementById('attendanceSemV35')?.value||'1',cls=(state.classes||[]).find(c=>c.id===cid),stud=attendanceClassStudentsV35(cid),data=state.attendanceV35[cid]?.[mi]||{},I=state.identity||{};if(!cls)return alert('Pilih kelas.');
@@ -1247,7 +1276,7 @@ document.addEventListener('change',function(e){if(e.target.id==='coverSemV38'&&t
 
 <div id="cloudPanel" style="position:fixed;right:18px;bottom:18px;z-index:9000;width:min(380px,calc(100vw - 36px));background:#fff;border:1px solid #dfe7f3;border-radius:16px;box-shadow:0 14px 45px #173b7228;padding:12px">
   <div style="display:flex;justify-content:space-between;gap:8px;align-items:center">
-    <div><b>☁️ Cloud Sync V4.4.2</b><div id="cloudStatus" class="muted" style="font-size:11px">Belum login</div></div>
+    <div><b>☁️ Cloud Sync V4.5.5</b><div id="cloudStatus" class="muted" style="font-size:11px">Belum login</div></div>
     <div style="display:flex;gap:5px">
       <button class="btn" id="cloudPinBtn" type="button" onclick="toggleCloudPin()" title="Pin/lepaskan panel">📌</button>
       <button class="btn" id="cloudShowHideBtn" type="button" onclick="toggleCloudBody()">Hide</button>
@@ -1599,4 +1628,26 @@ o.innerHTML='<div style="display:flex;gap:8px;align-items:center;color:#fff;marg
 document.body.appendChild(o)};
 document.addEventListener('keydown',function(e){if(e.key==='Escape')close_()});
 setTimeout(function(){try{window.renderMedia()}catch(e){}},2200);
-})();</script></body></html>
+})();
+/* V4.5.5 PRESENSI + AUTOSYNC */
+function daysMonthV455(m){let y=parseInt(String(state.identity?.year||'2026').match(/\d{4}/)?.[0]||'2026');return new Date(y,m,0).getDate()}
+function semesterMonthsV455(s){return String(s)==='1'?[7,8,9,10,11,12]:[1,2,3,4,5,6]}
+function meetingStoreV455(cid,sem){state.meetingMarksV455=state.meetingMarksV455||{};state.meetingMarksV455[cid]=state.meetingMarksV455[cid]||{};state.meetingMarksV455[cid][sem]=state.meetingMarksV455[cid][sem]||{};return state.meetingMarksV455[cid][sem]}
+function renderMeetingV455(){
+ const wrap=document.getElementById('meetingNumbersV455'),sel=document.getElementById('meetingSelectV455'),day=document.getElementById('meetingDayV455');if(!wrap||!sel||!day)return;
+ const cid=document.getElementById('attendanceClassV35')?.value||'',sem=document.getElementById('attendanceSemV455')?.value||'1',mi=document.getElementById('attendanceMonthV35')?.value||'1',marks=meetingStoreV455(cid,sem),old=sel.value;
+ sel.innerHTML=Array.from({length:25},(_,i)=>`<option value="${i+1}">Pertemuan ${i+1}</option>`).join('');if(old)sel.value=old;
+ day.innerHTML=Array.from({length:daysMonthV455(+mi)},(_,i)=>`<option value="${i+1}">Tanggal ${i+1} ${esc(ATT_MONTHS_V35[+mi-1])}</option>`).join('');
+ wrap.innerHTML=Array.from({length:25},(_,i)=>{let n=i+1;return `<button class="meeting-num ${marks[n]?'done':''}" onclick="document.getElementById('meetingSelectV455').value='${n}';renderMeetingStatusV455()">${n}</button>`}).join('');
+ renderMeetingStatusV455();
+}
+function renderMeetingStatusV455(){const e=document.getElementById('meetingStatusV455'),cid=document.getElementById('attendanceClassV35')?.value||'',sem=document.getElementById('attendanceSemV455')?.value||'1',n=document.getElementById('meetingSelectV455')?.value;if(!e||!n)return;let m=meetingStoreV455(cid,sem)[n];e.innerHTML=m?`<b style="color:#16a34a">✓ Sudah presensi</b><br>${esc(ATT_MONTHS_V35[+m.month-1])} tanggal ${esc(m.day)}`:'<span class="muted">Belum ditandai.</span>'}
+function markMeetingV455(){const cid=document.getElementById('attendanceClassV35')?.value,sem=document.getElementById('attendanceSemV455')?.value||'1',n=document.getElementById('meetingSelectV455')?.value,mi=document.getElementById('attendanceMonthV35')?.value,day=document.getElementById('meetingDayV455')?.value;if(!cid||!n)return;let s=meetingStoreV455(cid,sem);if(s[n]&&!confirm(`Pertemuan ${n} sudah ditandai. Perbarui?`))return;s[n]={month:String(mi),day:String(day),updatedAt:new Date().toISOString()};persist();queueAutoSyncV455();renderMeetingV455();renderSemesterV455();toast(`✓ Pertemuan ${n} ditandai sudah presensi.`)}
+function semesterRowsV455(cid,sem){const students=attendanceClassStudentsV35(cid),out={};students.forEach(s=>out[s.id]={s,H:0,S:0,I:0,A:0,total:0});semesterMonthsV455(sem).forEach(mi=>{let md=state.attendanceV35?.[cid]?.[String(mi)]||{};students.forEach(s=>{let r=md[s.id]||{};Object.values(r).forEach(v=>{v=String(v||'').toUpperCase();if(['H','S','I','A'].includes(v)){out[s.id][v]++;out[s.id].total++}})})});return Object.values(out)}
+function renderSemesterV455(){const box=document.getElementById('semesterTableV455'),info=document.getElementById('semesterInfoV455');if(!box)return;const cid=document.getElementById('attendanceClassV35')?.value||'',sem=document.getElementById('attendanceSemV455')?.value||'1',cls=(state.classes||[]).find(c=>c.id===cid),rows=semesterRowsV455(cid,sem),done=Object.keys(meetingStoreV455(cid,sem)).length;if(info)info.innerHTML=`<div class="notice"><b>${esc(cls?.name||'Kelas')}</b> • Semester ${esc(sem)} • <b>${done}/25 pertemuan</b> selesai.</div>`;box.innerHTML=`<table><thead><tr><th>No</th><th style="text-align:left">Nama Siswa</th><th>Hadir</th><th>Sakit</th><th>Izin</th><th>Alpa</th><th>Total</th></tr></thead><tbody>${rows.map((x,i)=>`<tr><td>${i+1}</td><td style="text-align:left">${esc(x.s.name)}</td><td>${x.H}</td><td>${x.S}</td><td>${x.I}</td><td>${x.A}</td><td><b>${x.total}</b></td></tr>`).join('')||'<tr><td colspan="7">Belum ada data.</td></tr>'}</tbody></table>`}
+function previewAttendanceV455(){const cid=document.getElementById('attendanceClassV35')?.value,mi=document.getElementById('attendanceMonthV35')?.value||'1',sem=document.getElementById('attendanceSemV455')?.value||'1',cls=(state.classes||[]).find(c=>c.id===cid),stud=attendanceClassStudentsV35(cid),data=state.attendanceV35?.[cid]?.[mi]||{},I=state.identity||{};if(!cls)return alert('Pilih kelas.');const days=Array.from({length:daysMonthV455(+mi)},(_,i)=>i+1),rows=stud.map((s,i)=>{let r=data[s.id]||{},sum=attendanceSummaryV35(r);return `<tr><td>${i+1}</td><td class="nm">${esc(s.name)}</td>${days.map(d=>`<td>${esc(r[d]||'H')}</td>`).join('')}<td>${sum.H}</td><td>${sum.S}</td><td>${sum.I}</td><td>${sum.A}</td></tr>`}).join('');let body=`<h1>DAFTAR HADIR PESERTA DIDIK</h1><h2>BAHASA INGGRIS KELAS IX</h2><div class="meta"><span><b>Sekolah:</b> ${esc(I.school||'')}</span><span><b>Kelas:</b> ${esc(cls.name)}</span><span><b>Bulan:</b> ${esc(ATT_MONTHS_V35[+mi-1])}</span><span><b>Guru:</b> ${esc(I.teacher||'')}</span><span><b>Semester:</b> ${esc(sem)}</span><span><b>TP:</b> ${esc(I.year||'')}</span></div><table><thead><tr><th rowspan="2" class="no">No</th><th rowspan="2" class="nm">Nama Peserta Didik</th><th colspan="${days.length}">Tanggal</th><th colspan="4">Jumlah</th></tr><tr>${days.map(d=>`<th>${d}</th>`).join('')}<th>H</th><th>S</th><th>I</th><th>A</th></tr></thead><tbody>${rows}</tbody></table><div class="foot"><b>H=Hadir • S=Sakit • I=Izin • A=Alpa</b></div>`;let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up.');w.document.write(`<html><head><style>@page{size:A4 landscape;margin:6mm}*{box-sizing:border-box}body{font-family:Arial;font-size:7pt;margin:0}h1,h2{text-align:center;margin:0}h1{font-size:13pt}h2{font-size:9pt;margin-bottom:3mm}.meta{display:grid;grid-template-columns:1.3fr .8fr 1fr;gap:1.5mm 5mm;margin-bottom:3mm}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:.6px solid #222;text-align:center;padding:1px;height:15px}.no{width:5mm}.nm{width:43mm;text-align:left;padding-left:1.5mm;white-space:nowrap;overflow:hidden}.foot{margin-top:2mm}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()}
+function printSemesterV455(){const cid=document.getElementById('attendanceClassV35')?.value,sem=document.getElementById('attendanceSemV455')?.value||'1',cls=(state.classes||[]).find(c=>c.id===cid),rows=semesterRowsV455(cid,sem),I=state.identity||{};let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up.');let tr=rows.map((x,i)=>`<tr><td>${i+1}</td><td style="text-align:left">${esc(x.s.name)}</td><td>${x.H}</td><td>${x.S}</td><td>${x.I}</td><td>${x.A}</td><td>${x.total}</td></tr>`).join('');w.document.write(`<html><head><style>@page{size:A4 portrait;margin:12mm}body{font-family:Arial;font-size:10pt}h1,h2{text-align:center;margin:3px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #222;padding:5px;text-align:center}</style></head><body><h1>REKAP PRESENSI SEMESTER</h1><h2>${esc(I.school||'')} • ${esc(cls?.name||'')} • Semester ${esc(sem)}</h2><table><tr><th>No</th><th>Nama Siswa</th><th>H</th><th>S</th><th>I</th><th>A</th><th>Total</th></tr>${tr}</table><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()}
+let syncTimerV455=null;
+function queueAutoSyncV455(){clearTimeout(syncTimerV455);syncTimerV455=setTimeout(async()=>{if(!navigator.onLine||!(typeof cloudSession!=='undefined'&&cloudSession?.access_token)||typeof pushLocalToCloud!=='function')return;try{await pushLocalToCloud()}catch(e){}},1500)}
+window.addEventListener('online',()=>queueAutoSyncV455());
+</script></body></html>
