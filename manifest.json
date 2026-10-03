@@ -1,0 +1,27 @@
+{
+  "version": "V4.9.65",
+  "baseline": "V4.9.64_PRINT_CENTER_DISPATCHER_REPAIR",
+  "features": [
+    "Buku Perangkat Pembelajaran P01-P19 V18 LOCK integrated in Pusat Cetak",
+    "Buku Administrasi Guru A01-A19 V3 integrated in Pusat Cetak",
+    "Same A4 background and typography lock",
+    "Data mapping from EDUGURU state to both books",
+    "Presensi print P1-P25 + H/S/I/A/% from attendanceV35 + meetingMarksV455",
+    "Unified grades F1-F5, S1-S5, STS, SAS, NA",
+    "STS/SAS semester input card added to Nilai module",
+    "Existing V4.9.64 print dispatcher preserved"
+  ],
+  "typography_lock": {
+    "title": "17 pt Bold",
+    "section": "14 pt Bold",
+    "body": "12 pt",
+    "table_header": "12 pt Bold",
+    "table_body": "12 pt",
+    "wide_table": "11 pt",
+    "notes": "9.5 pt italic"
+  },
+  "outputs": [
+    "Standalone functional HTML",
+    "Deploy ZIP with same index.html logic"
+  ]
+}
