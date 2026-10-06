@@ -1,0 +1,20 @@
+EDUGURU V4.9.10 QC REPORT
+
+PASS
+- Baseline V4.9.9 dipertahankan.
+- File HTML dapat diparsing dan patch JavaScript lulus node --check.
+- Data Kalender dan Jadwal disimpan pada key localStorage existing.
+- Preview data terstruktur tersedia.
+- Sinkronisasi mengisi date/day/time/className/scheduleSource pada Agenda/Jurnal.
+- Hari/tanggal non-efektif terstruktur dilewati oleh scheduler.
+- HTML Functional Preview dan ZIP Deploy berasal dari file index.html yang sama.
+
+PARTIAL
+- Pengujian browser interaktif penuh (klik seluruh menu/CRUD/print/mobile) belum dapat dibuktikan hanya dengan static build.
+- Kalender PDF adalah scan; event yang kurang jelas tidak dipaksakan masuk.
+- Kecocokan seluruh nama kelas bergantung pada Data Utama aplikasi (IX B–IX G/format setara).
+
+FAIL
+- Tidak ada kegagalan sintaks pada patch baru yang terdeteksi.
+
+Status rilis: REVIEW / FUNCTIONAL TEST REQUIRED — belum dinyatakan production-ready.

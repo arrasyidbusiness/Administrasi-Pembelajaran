@@ -1,0 +1,15 @@
+EDUGURU V4.9.10 CHANGELOG
+Baseline: EDUGURU V4.9.9 PROMES CHECK ACTIVE
+
+Fokus patch:
+1. Menambahkan data terstruktur yang ditranskripsi dari Kalender Pendidikan SMP Negeri 1 Klangenan TP 2026/2027.
+2. Menambahkan Jadwal Guru kode 10 (Taufiqurrohman, S.Pd. — Bahasa Inggris) dari sumber Jadwal Semester 1.
+3. Menambahkan preview Kalender dan Jadwal sebelum sinkronisasi.
+4. Menambahkan mesin sinkron tanggal + hari + waktu + kelas ke Agenda/Jurnal.
+5. Tanggal yang ditandai non-efektif pada data kalender terstruktur dilewati.
+6. Mempertahankan UI dan fungsi V4.9.9/V4.9.10 sebelumnya; tidak melakukan redesign besar.
+7. Tidak mengubah CP/TP/ATP/KKTP/Chapter/Meeting/content lock.
+
+Catatan:
+- Kalender sumber berupa scan satu halaman. Patch memakai transkripsi event yang terbaca jelas; tidak mengarang event yang tidak jelas.
+- Jadwal memakai 22 baris JP kode guru 10 yang sudah diekstrak dari sumber terstruktur.
