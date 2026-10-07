@@ -1,20 +1,23 @@
-EDUGURU V4.9.10 QC REPORT
+EDUGURU V4.9.47.6 STABLE — PRINT ENGINE REPAIR
 
-PASS
-- Baseline V4.9.9 dipertahankan.
-- File HTML dapat diparsing dan patch JavaScript lulus node --check.
-- Data Kalender dan Jadwal disimpan pada key localStorage existing.
-- Preview data terstruktur tersedia.
-- Sinkronisasi mengisi date/day/time/className/scheduleSource pada Agenda/Jurnal.
-- Hari/tanggal non-efektif terstruktur dilewati oleh scheduler.
-- HTML Functional Preview dan ZIP Deploy berasal dari file index.html yang sama.
+Basis: V4.9.47.5 STABLE.
 
-PARTIAL
-- Pengujian browser interaktif penuh (klik seluruh menu/CRUD/print/mobile) belum dapat dibuktikan hanya dengan static build.
-- Kalender PDF adalah scan; event yang kurang jelas tidak dipaksakan masuk.
-- Kecocokan seluruh nama kelas bergantung pada Data Utama aplikasi (IX B–IX G/format setara).
+Audit:
+Masalah utama berasal dari mesin cetak historis yang memiliki banyak wrapper/dispatcher dan tidak semua ID dokumen mempunyai renderer aktif. Akibatnya beberapa pilihan dapat dicentang tetapi tidak menghasilkan cetak yang benar.
 
-FAIL
-- Tidak ada kegagalan sintaks pada patch baru yang terdeteksi.
+Perbaikan:
+- Menambahkan satu dispatcher cetak terakhir/otoritatif V4.9.47.6.
+- Cetak Dokumen Terpilih sekarang membaca semua checkbox sumber yang aktif dan menggabungkannya ke SATU jendela cetak.
+- Menambahkan tombol Cetak pada setiap baris dokumen yang tampil.
+- Menambahkan tombol Cetak individual pada 4 Dokumen Awal di tab Cover.
+- Cover Perangkat dan Cover Administrasi memakai data tersimpan dari editor/template Cover.
+- Pengesahan, Prakata, Daftar Isi memakai data edit tersimpan.
+- Renderer legacy/integrated-book tetap dipakai bila tersedia.
+- TP, Alokasi, Agenda, Rubrik dan ID tanpa renderer dedicated mempunyai fallback cetak agar tombol tidak mati.
+- Pengaturan Kelas/Semester/Chapter/Bulan/Pertemuan tetap dibaca dari Pusat Cetak.
 
-Status rilis: REVIEW / FUNCTIONAL TEST REQUIRED — belum dinyatakan production-ready.
+QC:
+- JavaScript syntax: PASS.
+- Dispatcher selected-doc baru: terdeteksi.
+- Dispatcher single-doc baru: terdeteksi.
+- Browser popup/print dialog belum dapat diuji interaktif di runtime ini; browser harus mengizinkan pop-up.
