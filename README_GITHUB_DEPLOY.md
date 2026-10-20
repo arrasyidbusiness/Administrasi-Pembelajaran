@@ -1,23 +1,7 @@
-# EDUGURU V4.9.106 — GitHub Pages Deploy
+# EDUGURU V4.9.107 — GitHub Deploy
 
-Paket ini disiapkan agar file standalone EDUGURU V4.9.106 dapat langsung dipublikasikan melalui GitHub Pages.
-
-## Isi paket
-- `index.html` — aplikasi utama EDUGURU V4.9.106
-- `.nojekyll` — mencegah pemrosesan Jekyll
-- `README_GITHUB_DEPLOY.md` — panduan deploy
-
-## Cara deploy
-1. Buat repository GitHub baru.
-2. Ekstrak ZIP ini.
-3. Upload `index.html` dan `.nojekyll` ke root repository.
-4. Buka **Settings → Pages**.
-5. Pilih **Deploy from a branch**.
-6. Pilih branch **main** dan folder **/(root)**.
-7. Klik **Save** dan tunggu URL GitHub Pages aktif.
-
-## Catatan Supabase
-Jika autentikasi atau fitur Cloud/Supabase membatasi origin/domain, tambahkan URL GitHub Pages Anda ke konfigurasi redirect/origin yang relevan di Supabase.
-
-## Catatan penting
-Paket deploy ini tidak mengubah substansi aplikasi. File HTML sumber hanya disalin sebagai `index.html` agar menjadi entry point GitHub Pages.
+1. Hapus/replace `index.html` lama di repository.
+2. Upload `index.html` dan `.nojekyll` dari paket ini ke root repository.
+3. Commit/push ke branch GitHub Pages.
+4. Tunggu deployment selesai.
+5. Di Android, lakukan hard refresh atau hapus cache situs bila versi lama masih tampil.

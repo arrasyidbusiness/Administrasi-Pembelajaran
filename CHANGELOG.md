@@ -1,6 +1,6 @@
-# EDUGURU V4.10.04 — CHANGELOG
-- Tambah resize logo/gambar dengan drag corner handle.
-- Tambah resize bebas dengan Shift.
-- Tambah drag batas kolom tabel seperti Word.
-- Simpan perubahan ukuran ke revisi editor.
-- Pertahankan seluruh fungsi editor V4.10.03 dan Buku Terpadu.
+# EDUGURU V4.9.107 — CHANGELOG
+
+- Fix source JavaScript mentah yang tampil di bawah footer Android/GitHub Pages.
+- Hapus blok duplikat korup sekitar 6 MB yang tersisip setelah V4.9.102.
+- Pertahankan patch cetak A4 sesudahnya.
+- Rebuild paket GitHub Pages.
