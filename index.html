@@ -314,11 +314,23 @@ Meeting source-of-truth target: Kalender + Jadwal -> Meeting Map -> Agenda -> Ju
 }
 </style>
 
-<style id="eduguru-date-manual-calendar-v49118">
-.v49118-meeting-date-field{min-width:0}
-.v49118-meeting-date-field>input,.v49118-calendar-row input{box-sizing:border-box;width:100%;max-width:100%;min-height:40px}
-.v49118-calendar-row{display:flex;flex-direction:column;gap:4px;margin-top:7px}
-.v49118-calendar-row label{font-size:12px;color:var(--muted,#64748b)}
+
+<style id="eduguru-global-date-activation-v49119-css">
+.eg-date-wrap-v49119{display:flex!important;align-items:stretch!important;gap:6px!important;min-width:0!important;width:100%!important}
+.eg-date-wrap-v49119>input{flex:1 1 auto!important;min-width:0!important;width:100%!important;box-sizing:border-box!important}
+.eg-date-open-v49119{flex:0 0 42px!important;min-width:42px!important;min-height:40px!important;border:1px solid #b8c5d6!important;border-radius:9px!important;background:#f3f7fb!important;color:#183b63!important;font-size:19px!important;line-height:1!important;cursor:pointer!important;touch-action:manipulation!important}
+#egDatePickerV49119{position:fixed!important;z-index:2147483647!important;inset:0!important;display:none;align-items:center!important;justify-content:center!important;padding:16px!important;background:rgba(15,23,42,.48)!important;box-sizing:border-box!important}
+#egDatePickerV49119.eg-date-visible-v49119{display:flex!important}
+#egDatePickerV49119 .eg-date-panel-v49119{width:min(360px,100%)!important;background:#fff!important;color:#172033!important;border-radius:16px!important;box-shadow:0 20px 60px #0004!important;padding:16px!important;box-sizing:border-box!important;font:14px/1.4 system-ui,sans-serif!important}
+#egDatePickerV49119 .eg-date-head-v49119{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;margin-bottom:12px!important}
+#egDatePickerV49119 button{touch-action:manipulation!important;cursor:pointer!important}
+#egDatePickerV49119 .eg-date-nav-v49119{border:1px solid #d5deea!important;border-radius:9px!important;background:#f5f8fc!important;padding:8px 12px!important;color:#1f3a5b!important}
+#egDatePickerV49119 .eg-date-grid-v49119{display:grid!important;grid-template-columns:repeat(7,minmax(0,1fr))!important;gap:4px!important}
+#egDatePickerV49119 .eg-date-day-v49119{min-height:38px!important;border:1px solid #e2e8f0!important;border-radius:8px!important;background:#fff!important;color:#172033!important;font-weight:500!important;padding:4px 0!important}
+#egDatePickerV49119 .eg-date-day-v49119.eg-date-selected-v49119{background:#1d4ed8!important;border-color:#1d4ed8!important;color:#fff!important}
+#egDatePickerV49119 .eg-date-day-v49119.eg-date-today-v49119{outline:2px solid #93c5fd!important}
+#egDatePickerV49119 .eg-date-foot-v49119{display:flex!important;justify-content:space-between!important;gap:8px!important;margin-top:12px!important}
+#egDatePickerV49119 .eg-date-foot-v49119 button{border:1px solid #d5deea!important;border-radius:9px!important;background:#f5f8fc!important;padding:9px 12px!important;color:#1f3a5b!important}
 </style>
 </head>
 <body>
@@ -693,14 +705,7 @@ Meeting source-of-truth target: Kalender + Jadwal -> Meeting Map -> Agenda -> Ju
   <div id="meetingNumbersV455" class="meeting-numbers"></div>
   <div class="grid g3 pres-filter">
     <div><label>Pertemuan</label><select id="meetingSelectV455" onchange="renderMeetingStatusV455()"></select></div>
-    <div class="v49118-meeting-date-field">
-    <label for="meetingDateV4917">Tanggal Pertemuan (ketik atau pilih kalender)</label>
-    <input id="meetingDateV4917" type="text" inputmode="numeric" autocomplete="off" placeholder="DD/MM/YYYY" aria-label="Ketik tanggal pertemuan" title="Ketik tanggal DD/MM/YYYY atau YYYY-MM-DD" onchange="syncMeetingDateV4917()">
-    <div class="v49118-calendar-row">
-      <label for="meetingDateCalendarV49118">Pilih melalui kalender</label>
-      <input id="meetingDateCalendarV49118" type="date" aria-label="Pilih tanggal pertemuan melalui kalender" title="Pilih tanggal melalui kalender" onchange="syncMeetingDateFromCalendarV49118()">
-    </div>
-  </div>
+    <div><label>Tanggal Pertemuan</label><input id="meetingDateV4917" type="text" inputmode="numeric" autocomplete="off" placeholder="DD/MM/YYYY" aria-label="Tanggal Pertemuan" title="Ketik tanggal DD/MM/YYYY atau YYYY-MM-DD" onchange="syncMeetingDateV4917()" onblur="syncMeetingDateV4917()"></div>
     <div><label>Status</label><div id="meetingStatusV455" class="notice status-box">Belum ditandai.</div></div>
   </div>
 </div>
@@ -19456,7 +19461,7 @@ function status(na){if(na===null||na===undefined||na==='')return'Belum Dinilai';
 function openPrint(title,body,css){
  const w=window.open('','_blank');if(!w)return alert('Izinkan pop-up browser untuk mencetak.');
  w.document.open();
- w.document.write('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+'</title><style>'+css+'</style></head><body>'+body+'<script>window.addEventListener("load",function(){setTimeout(function(){window.print()},180)});<\\/script></body></html>');
+ w.document.write('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+'</title><style>'+css+'</style></head><body>'+body+'<script>window.addEventListener("load",function(){setTimeout(function(){window.print()},180)});<\/script></body></html>');
  w.document.close();
 }
 function commonCss(){return `
@@ -19562,8 +19567,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     const old=String(n); sel.innerHTML=Array.from({length:25},(_,i)=>`<option value="${i+1}">Pertemuan ${i+1}</option>`).join(''); sel.value=old;
     const r=typeof attRec==='function'?attRec(cid,sem,n,true):null;
     if(date){date.value=/^\d{4}-\d{2}-\d{2}$/.test(String(r?.date||''))?displayManualMeetingDate(r.date):'';date.setCustomValidity('');}
-    const calendar=document.getElementById('meetingDateCalendarV49118');
-    if(calendar){calendar.value=/^\d{4}-\d{2}-\d{2}$/.test(String(r?.date||''))?r.date:'';}
     if(st) st.textContent=r?.date?`✓ Pertemuan ${n} • ${displayManualMeetingDate(r.date)}`:`Pertemuan ${n} belum memiliki tanggal.`;
     if(nums){nums.className='v4973-meeting-grid';nums.innerHTML=Array.from({length:25},(_,i)=>{const k=i+1,rr=typeof attRec==='function'?attRec(cid,sem,k,false):null,done=!!rr?.date;return `<button type="button" class="v4973-meeting-chip ${done?'done':''} ${k===n?'active':''}" data-v4973-meeting="${k}">P${k}${done?' ✓':''}</button>`}).join('');}
   };
@@ -19579,21 +19582,111 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     window.renderMeetingStatusV455();
     if(typeof renderAttendanceRecap==='function')renderAttendanceRecap();
   };
-  window.syncMeetingDateFromCalendarV49118=function(){
-    const calendar=document.getElementById('meetingDateCalendarV49118');
-    const textInput=document.getElementById('meetingDateV4917');
-    if(!calendar||!textInput)return;
-    textInput.setCustomValidity('');
-    textInput.value=calendar.value?displayManualMeetingDate(calendar.value):'';
-    window.syncMeetingDateV4917();
-  };
   document.addEventListener('DOMContentLoaded',function(){
-    const inp=document.getElementById('meetingDateV4917');
-    if(inp){inp.type='text';inp.inputMode='numeric';inp.autocomplete='off';inp.placeholder='DD/MM/YYYY';inp.title='Ketik tanggal DD/MM/YYYY atau YYYY-MM-DD';}
-    const calendar=document.getElementById('meetingDateCalendarV49118');
-    if(calendar){calendar.type='date';calendar.autocomplete='off';}
+    const inp=document.getElementById('meetingDateV4917'); if(inp){inp.type='text';inp.inputMode='numeric';inp.autocomplete='off';inp.placeholder='DD/MM/YYYY';inp.title='Ketik tanggal DD/MM/YYYY atau YYYY-MM-DD';}
   });
 })();
 </script>
 </body>
 </html>
+
+
+<script id="eduguru-global-date-activation-v49119">
+(function(){
+  'use strict';
+  if(window.__egDateActivationV49119) return;
+  window.__egDateActivationV49119 = true;
+  var activeInput = null, viewYear = 0, viewMonth = 0, observerStarted = false;
+  function pad(n){return String(n).padStart(2,'0');}
+  function valid(y,m,d){var dt=new Date(y,m-1,d);return y>=1000&&dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d;}
+  function parts(value){
+    var v=String(value||'').trim(),m=v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if(m)return valid(+m[1],+m[2],+m[3])?[+m[1],+m[2],+m[3]]:null;
+    m=v.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})$/);
+    if(m)return valid(+m[3],+m[2],+m[1])?[+m[3],+m[2],+m[1]]:null;
+    return null;
+  }
+  function iso(y,m,d){return y+'-'+pad(m)+'-'+pad(d);}
+  function normalize(input,showError){
+    var raw=String(input.value||'').trim();
+    if(!raw){input.setCustomValidity('');return '';}
+    var p=parts(raw);
+    if(!p){input.setCustomValidity('Tanggal tidak valid. Gunakan DD/MM/YYYY atau YYYY-MM-DD.');if(showError&&input.reportValidity)input.reportValidity();return null;}
+    input.setCustomValidity('');input.value=iso(p[0],p[1],p[2]);return input.value;
+  }
+  function getPicker(){
+    var el=document.getElementById('egDatePickerV49119');if(el)return el;
+    el=document.createElement('div');el.id='egDatePickerV49119';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');el.setAttribute('aria-label','Pilih tanggal');
+    el.innerHTML='<div class="eg-date-panel-v49119"><div class="eg-date-head-v49119"><button type="button" class="eg-date-nav-v49119" data-eg-prev aria-label="Bulan sebelumnya">‹</button><strong data-eg-title></strong><button type="button" class="eg-date-nav-v49119" data-eg-next aria-label="Bulan berikutnya">›</button></div><div class="eg-date-grid-v49119" data-eg-grid></div><div class="eg-date-foot-v49119"><button type="button" data-eg-today>Hari ini</button><button type="button" data-eg-close>Tutup</button></div></div>';
+    document.body.appendChild(el);
+    el.addEventListener('click',function(e){
+      if(e.target===el||e.target.closest('[data-eg-close]')){closePicker();return;}
+      if(e.target.closest('[data-eg-prev]')){shift(-1);return;}
+      if(e.target.closest('[data-eg-next]')){shift(1);return;}
+      if(e.target.closest('[data-eg-today]')){var n=new Date();choose(n.getFullYear(),n.getMonth()+1,n.getDate());return;}
+      var d=e.target.closest('[data-eg-day]');if(d)choose(viewYear,viewMonth+1,+d.getAttribute('data-eg-day'));
+    });
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&el.classList.contains('eg-date-visible-v49119'))closePicker();});
+    return el;
+  }
+  function draw(){
+    var el=getPicker(),title=el.querySelector('[data-eg-title]'),grid=el.querySelector('[data-eg-grid]');
+    var names=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    title.textContent=names[viewMonth]+' '+viewYear;
+    grid.innerHTML=['Min','Sen','Sel','Rab','Kam','Jum','Sab'].map(function(n){return '<div style="text-align:center;font-size:12px;font-weight:700;padding:5px 0;color:#52647a">'+n+'</div>';}).join('');
+    var first=new Date(viewYear,viewMonth,1).getDay(),count=new Date(viewYear,viewMonth+1,0).getDate(),sel=activeInput?parts(activeInput.value):null,now=new Date();
+    for(var i=0;i<first;i++)grid.insertAdjacentHTML('beforeend','<div></div>');
+    for(var d=1;d<=count;d++){
+      var c='eg-date-day-v49119';
+      if(sel&&sel[0]===viewYear&&sel[1]===viewMonth+1&&sel[2]===d)c+=' eg-date-selected-v49119';
+      if(now.getFullYear()===viewYear&&now.getMonth()===viewMonth&&now.getDate()===d)c+=' eg-date-today-v49119';
+      grid.insertAdjacentHTML('beforeend','<button type="button" class="'+c+'" data-eg-day="'+d+'">'+d+'</button>');
+    }
+  }
+  function shift(delta){viewMonth+=delta;if(viewMonth<0){viewMonth=11;viewYear--;}if(viewMonth>11){viewMonth=0;viewYear++;}draw();}
+  function openPicker(input){activeInput=input;var p=parts(input.value),n=new Date();viewYear=p?p[0]:n.getFullYear();viewMonth=p?p[1]-1:n.getMonth();draw();getPicker().classList.add('eg-date-visible-v49119');}
+  function closePicker(){var el=document.getElementById('egDatePickerV49119');if(el)el.classList.remove('eg-date-visible-v49119');}
+  function choose(y,m,d){if(!activeInput)return;activeInput.value=iso(y,m,d);activeInput.setCustomValidity('');activeInput.dispatchEvent(new Event('input',{bubbles:true}));activeInput.dispatchEvent(new Event('change',{bubbles:true}));closePicker();}
+  function wrapInput(input){
+    if(!input||input.dataset.egDateReady49119==='1')return;
+    input.dataset.egDateReady49119='1';
+    var original=String(input.value||'');
+    input.type='text';input.setAttribute('inputmode','numeric');input.setAttribute('autocomplete','off');input.setAttribute('placeholder','DD/MM/YYYY atau YYYY-MM-DD');
+    var p=parts(original);if(p)input.value=iso(p[0],p[1],p[2]);
+    var wrap=document.createElement('span');wrap.className='eg-date-wrap-v49119';
+    input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);
+    var b=document.createElement('button');b.type='button';b.className='eg-date-open-v49119';b.textContent='▦';b.setAttribute('aria-label','Buka kalender tanggal');b.title='Pilih tanggal melalui kalender';wrap.appendChild(b);
+    b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openPicker(input);});
+    input.addEventListener('change',function(){
+      var before=input.value,n=normalize(input,true);
+      if(n!==null&&n!==''&&input.value!==before){input.dispatchEvent(new Event('change',{bubbles:true}));}
+    });
+    input.addEventListener('blur',function(){normalize(input,false);});
+  }
+  function scan(root){
+    if(root.nodeType===1&&root.matches&&root.matches('input[type="date"]'))wrapInput(root);
+    if(root.querySelectorAll)root.querySelectorAll('input[type="date"]').forEach(wrapInput);
+  }
+  function start(){
+    scan(document);
+    if(!observerStarted){
+      var obs=new MutationObserver(function(records){records.forEach(function(r){r.addedNodes.forEach(function(n){if(n.nodeType===1)scan(n);});});});
+      obs.observe(document,{childList:true,subtree:true});
+      observerStarted=true;
+    }
+    var manual=document.getElementById('meetingDateV4917');
+    if(manual&&manual.dataset.egDateReady49119!=='1'){
+      manual.dataset.egDateReady49119='1';
+      var wrap=document.createElement('span');wrap.className='eg-date-wrap-v49119';manual.parentNode.insertBefore(wrap,manual);wrap.appendChild(manual);
+      var b=document.createElement('button');b.type='button';b.className='eg-date-open-v49119';b.textContent='▦';b.setAttribute('aria-label','Buka kalender tanggal');b.title='Pilih tanggal melalui kalender';wrap.appendChild(b);
+      b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openPicker(manual);});
+      manual.addEventListener('change',function(){var before=manual.value,n=normalize(manual,true);if(n!==null&&n!==''&&manual.value!==before)manual.dispatchEvent(new Event('change',{bubbles:true}));});
+    }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+  // Re-scan after legacy print/UI scripts that may rebuild the document or create date fields later.
+  window.addEventListener('load',function(){start();setTimeout(start,400);setTimeout(start,1400);});
+  setTimeout(start,700);
+})();
+</script>
+

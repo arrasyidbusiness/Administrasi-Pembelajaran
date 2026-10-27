@@ -1,3 +1,1 @@
-# EDUGURU V4.9.118
-
-Unggah isi paket ke root repository GitHub Pages. Tanggal pertemuan dapat diketik manual atau dipilih melalui kontrol kalender.
+EDUGURU V4.9.119 — perbaikan semua kolom tanggal. Unggah index.html dan .nojekyll ke root GitHub Pages.
