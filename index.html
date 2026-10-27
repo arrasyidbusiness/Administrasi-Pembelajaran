@@ -34,7 +34,7 @@ table{width:100%;border-collapse:collapse;background:#fff}th,td{border-bottom:1p
 .progress{height:8px;background:#e9edf4;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;background:var(--good)}
 footer{padding:20px;text-align:center;color:var(--muted)}
 @media(max-width:950px){.app{grid-template-columns:1fr}aside{height:auto;position:relative}.nav{display:grid;grid-template-columns:repeat(2,1fr)}.nav .sep{grid-column:1/-1}.top{position:relative}.g4,.g3,.g2{grid-template-columns:1fr}.page{padding:14px}}
-@media print{aside,.top,.no-print,footer{display:none!important}.app{display:block}.page{display:none!important}.page.printing{display:block!important;padding:0;max-width:none}.card{box-shadow:none;border:0}.print-title{display:block!important}body{background:#fff} @page{size:A4 portrait;margin:15mm}}
+@media print{aside,.top,.no-print,footer{display:none!important}.app{display:block}.page{display:none!important}.page.printing{display:block!important;padding:0;max-width:none}.card{box-shadow:none;border:0}.print-title{display:block!important}body{background:#fff} @page{size:210mm 330mm;margin:15mm}}
 .print-title{display:none}
 
 /* V4.9.10 PRESENSI CLEAN */
@@ -288,7 +288,7 @@ Meeting source-of-truth target: Kalender + Jadwal -> Meeting Map -> Agenda -> Ju
 <style id="v49104-print-portrait-global">
 /* V4.9.104 — Global A4 Portrait print policy */
 @media print{
-  @page{size:A4 portrait!important;margin:10mm!important}
+  @page{size:210mm 330mm!important;margin:10mm!important}
   html,body{width:210mm!important;min-width:210mm!important;max-width:210mm!important;background:#fff!important}
   body{margin:0!important;padding:0!important;overflow:visible!important}
   .page.printing{width:auto!important;max-width:none!important;margin:0!important;padding:0!important}
@@ -314,6 +314,12 @@ Meeting source-of-truth target: Kalender + Jadwal -> Meeting Map -> Agenda -> Ju
 }
 </style>
 
+<style id="eduguru-date-manual-calendar-v49118">
+.v49118-meeting-date-field{min-width:0}
+.v49118-meeting-date-field>input,.v49118-calendar-row input{box-sizing:border-box;width:100%;max-width:100%;min-height:40px}
+.v49118-calendar-row{display:flex;flex-direction:column;gap:4px;margin-top:7px}
+.v49118-calendar-row label{font-size:12px;color:var(--muted,#64748b)}
+</style>
 </head>
 <body>
 <div id="sidebarBackdropV4521" aria-hidden="true"></div>
@@ -687,7 +693,14 @@ Meeting source-of-truth target: Kalender + Jadwal -> Meeting Map -> Agenda -> Ju
   <div id="meetingNumbersV455" class="meeting-numbers"></div>
   <div class="grid g3 pres-filter">
     <div><label>Pertemuan</label><select id="meetingSelectV455" onchange="renderMeetingStatusV455()"></select></div>
-    <div><label>Tanggal Pertemuan</label><input id="meetingDateV4917" type="date" onchange="syncMeetingDateV4917()"></div>
+    <div class="v49118-meeting-date-field">
+    <label for="meetingDateV4917">Tanggal Pertemuan (ketik atau pilih kalender)</label>
+    <input id="meetingDateV4917" type="text" inputmode="numeric" autocomplete="off" placeholder="DD/MM/YYYY" aria-label="Ketik tanggal pertemuan" title="Ketik tanggal DD/MM/YYYY atau YYYY-MM-DD" onchange="syncMeetingDateV4917()">
+    <div class="v49118-calendar-row">
+      <label for="meetingDateCalendarV49118">Pilih melalui kalender</label>
+      <input id="meetingDateCalendarV49118" type="date" aria-label="Pilih tanggal pertemuan melalui kalender" title="Pilih tanggal melalui kalender" onchange="syncMeetingDateFromCalendarV49118()">
+    </div>
+  </div>
     <div><label>Status</label><div id="meetingStatusV455" class="notice status-box">Belum ditandai.</div></div>
   </div>
 </div>
@@ -1309,6 +1322,8 @@ function openPrintV39(title,body,orientation='portrait'){
  let css=`@page{size:A4 ${orientation};margin:12mm}body{font-family:Arial,sans-serif;font-size:10pt;line-height:1.3;color:#111;margin:0}h1,h2{text-align:center;margin:3px}h1{font-size:17pt}h2{font-size:12.5pt}h3{font-size:11.5pt;margin:14px 0 5px}table{width:100%;border-collapse:collapse;margin:6px 0 12px}th,td{border:1px solid #111;padding:5px;vertical-align:top}th{background:#eee;font-weight:700}tr{page-break-inside:avoid}`;
  w.document.write(`<html><head><title>${esc(title)}</title><style>${css}</style></head><body>${body}<script>window.onload=function(){window.print()}<\/script>
 
+
+
 </body></html>`);w.document.close()
 }
 function printSelectedDocsV39(){
@@ -1357,7 +1372,7 @@ function previewCoverV38(){
  const logoHtml=logo?`<img class="logo" src="${logo}">`:`<div class="logo-placeholder">LOGO<br>SEKOLAH</div>`;
  const body=`<main class="cover"><div class="topline">${esc(cur)}</div><div class="rule"></div><h1>${esc(title)}</h1><h2>${esc(sub)}</h2><div class="class">${esc(cl)}</div><div class="logo-wrap">${logoHtml}</div><div class="school">${esc(I.school||'SMPN 1 Klangenan')}</div><div class="meta">Semester ${esc(sem)}<br>Tahun Pelajaran ${esc(yr)}</div><div class="teacher"><span>Disusun oleh:</span><strong>${esc(teacher)}</strong><small>Guru Bahasa Inggris</small></div><footer>${esc(I.school||'SMPN 1 Klangenan')} • ${esc(yr)}</footer></main>`;
  let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');
- let css='@page{size:A4 portrait;margin:0}*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#102a43}.cover{width:210mm;height:297mm;padding:25mm 20mm 16mm;position:relative;text-align:center;background:#f8fbff}.topline{font-size:12pt;font-weight:700;letter-spacing:2px}.rule{width:42mm;height:1mm;background:#777;margin:7mm auto 13mm}h1{font-size:32pt;margin:0 0 5mm}h2{font-size:19pt;margin:0 0 4mm}.class{font-size:13pt}.logo-wrap{height:48mm;display:flex;align-items:center;justify-content:center;margin:8mm 0 3mm}.logo{max-width:38mm;max-height:38mm}.logo-placeholder{width:35mm;height:35mm;border:1px solid #8aa2b8;border-radius:8mm;display:flex;align-items:center;justify-content:center;font-size:8pt}.school{font-size:20pt;font-weight:800}.meta{font-size:12pt;line-height:1.7;margin-top:5mm}.teacher{margin:13mm auto 0;width:95mm;padding:6mm;border-top:1px solid #9fb3c8;border-bottom:1px solid #9fb3c8;display:flex;flex-direction:column;gap:2mm}.teacher strong{font-size:14pt}footer{position:absolute;bottom:12mm;left:20mm;right:20mm;font-size:8pt}';
+ let css='@page{size:210mm 330mm;margin:0}*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#102a43}.cover{width:210mm;height:297mm;padding:25mm 20mm 16mm;position:relative;text-align:center;background:#f8fbff}.topline{font-size:12pt;font-weight:700;letter-spacing:2px}.rule{width:42mm;height:1mm;background:#777;margin:7mm auto 13mm}h1{font-size:32pt;margin:0 0 5mm}h2{font-size:19pt;margin:0 0 4mm}.class{font-size:13pt}.logo-wrap{height:48mm;display:flex;align-items:center;justify-content:center;margin:8mm 0 3mm}.logo{max-width:38mm;max-height:38mm}.logo-placeholder{width:35mm;height:35mm;border:1px solid #8aa2b8;border-radius:8mm;display:flex;align-items:center;justify-content:center;font-size:8pt}.school{font-size:20pt;font-weight:800}.meta{font-size:12pt;line-height:1.7;margin-top:5mm}.teacher{margin:13mm auto 0;width:95mm;padding:6mm;border-top:1px solid #9fb3c8;border-bottom:1px solid #9fb3c8;display:flex;flex-direction:column;gap:2mm}.teacher strong{font-size:14pt}footer{position:absolute;bottom:12mm;left:20mm;right:20mm;font-size:8pt}';
  w.document.write('<html><head><title>Cover Administrasi Guru</title><style>'+css+'</style></head><body>'+body+'<script>window.onload=function(){window.print()}<\/script></body></html>');w.document.close();
 }
 function analysisContextV37(){let cid=document.getElementById('analysisClassV37')?.value,sem=document.getElementById('analysisSemV37')?.value||'1',ch=document.getElementById('analysisChapterV37')?.value||'ch1';return {cid,sem,ch,cls:(state.classes||[]).find(c=>c.id===cid),chapter:(state.planningV32?.chapters||[]).find(c=>c.id===ch)}}
@@ -1384,7 +1399,7 @@ function previewAnalysisV37(){
  let rem=rows.filter(x=>x.status.includes('Remedial')),en=rows.filter(x=>x.status==='Pengayaan');
  const fu=(arr,type)=>arr.map((x,i)=>{let key=[cid,sem,ch,x.s.id,type].join('|'),f=state.followUpV37?.[key]||{};return `<tr><td>${i+1}</td><td>${esc(x.s.name)}</td><td>${x.a??'—'}</td><td>${esc(x.status)}</td><td>${esc(f.plan||defaultPlanV37(x.status,type))}</td><td>${f.result??''}</td></tr>`}).join('');
  let body=`<h1>ANALISIS HASIL BELAJAR & TINDAK LANJUT</h1><h2>BAHASA INGGRIS KELAS IX</h2><table class="identity"><tr><td>Sekolah</td><td>${esc(I.school||'')}</td><td>Kelas</td><td>${esc(cls.name)}</td></tr><tr><td>Guru</td><td>${esc(I.teacher||'')}</td><td>Semester</td><td>${esc(sem)}</td></tr><tr><td>Chapter</td><td>${esc(chapter?.name||ch)}</td><td>Rata-rata Kelas</td><td>${avg}</td></tr></table><h3>A. Analisis Hasil</h3><table><tr><th>No</th><th>Nama</th><th>Formatif</th><th>Task</th><th>Product</th><th>Sumatif</th><th>Rata-rata</th><th>KKTP</th></tr>${rows.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.s.name)}</td><td>${x.r.formative??''}</td><td>${x.r.task??''}</td><td>${x.r.product??''}</td><td>${x.r.summative??''}</td><td>${x.a??''}</td><td>${esc(x.status)}</td></tr>`).join('')}</table><h3>B. Program Remedial</h3><table><tr><th>No</th><th>Nama</th><th>Nilai</th><th>Status</th><th>Program</th><th>Hasil</th></tr>${fu(rem,'remedial')||'<tr><td colspan="6">Tidak ada.</td></tr>'}</table><h3>C. Program Pengayaan</h3><table><tr><th>No</th><th>Nama</th><th>Nilai</th><th>Status</th><th>Program</th><th>Hasil</th></tr>${fu(en,'pengayaan')||'<tr><td colspan="6">Tidak ada.</td></tr>'}</table><div class="sign"><div>Mengetahui,<br>Wali Kelas<br><br><br><b>${esc(cls.homeroom||'________________')}</b></div><div>Klangenan, ____________<br>Guru Mata Pelajaran<br><br><br><b>${esc(I.teacher||'________________')}</b></div></div>`;
- let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up.');w.document.write(`<html><head><style>@page{size:A4 portrait;margin:12mm}body{font-family:Arial;font-size:9.4pt;line-height:1.25;margin:0}h1,h2{text-align:center}h1{font-size:16pt}h2{font-size:11.5pt}table{width:100%;border-collapse:collapse;margin:6px 0 12px}th,td{border:1px solid #111;padding:4px;vertical-align:top}th{background:#eee}.identity td:nth-child(odd){font-weight:bold}.sign{display:grid;grid-template-columns:1fr 1fr;gap:40mm;text-align:center;margin-top:18px}@media print{tr{page-break-inside:avoid}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()
+ let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up.');w.document.write(`<html><head><style>@page{size:210mm 330mm;margin:12mm}body{font-family:Arial;font-size:9.4pt;line-height:1.25;margin:0}h1,h2{text-align:center}h1{font-size:16pt}h2{font-size:11.5pt}table{width:100%;border-collapse:collapse;margin:6px 0 12px}th,td{border:1px solid #111;padding:4px;vertical-align:top}th{background:#eee}.identity td:nth-child(odd){font-weight:bold}.sign{display:grid;grid-template-columns:1fr 1fr;gap:40mm;text-align:center;margin-top:18px}@media print{tr{page-break-inside:avoid}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()
 }
 const GRADE_COMPONENTS_V36=[['formative','Formatif'],['task','Task / LKPD'],['product','Product / Performance'],['summative','Sumatif Chapter']];
 function ensureGradesV36(force=false){
@@ -1435,7 +1450,7 @@ function previewGradesV36(){
  ensureGradesV36();let cid=document.getElementById('gradeClassV36')?.value,sem=document.getElementById('gradeSemV36')?.value||'1',ch=document.getElementById('gradeChapterV36')?.value||'ch1',cls=(state.classes||[]).find(c=>c.id===cid),chapter=(state.planningV32?.chapters||[]).find(c=>c.id===ch),stud=gradeStudentsV36(cid),I=state.identity||{};if(!cls)return alert('Pilih kelas.');
  let rows=stud.map((s,i)=>{let r=gradeRowV36(cid,sem,ch,s.id),a=avgGradeV36(r);return `<tr><td>${i+1}</td><td class="name">${esc(s.name)}</td>${GRADE_COMPONENTS_V36.map(x=>`<td>${r[x[0]]??''}</td>`).join('')}<td><b>${a===null?'—':a}</b></td><td>${esc(kktpLabelV36(a))}</td></tr>`}).join('');
  let body=`<h1>DAFTAR NILAI PESERTA DIDIK</h1><h2>BAHASA INGGRIS KELAS IX</h2><table class="identity"><tr><td>Satuan Pendidikan</td><td>${esc(I.school||'')}</td><td>Kelas</td><td>${esc(cls.name)}</td></tr><tr><td>Guru</td><td>${esc(I.teacher||'')}</td><td>Semester / TP</td><td>${esc(sem)} / ${esc(I.year||'')}</td></tr><tr><td>Chapter</td><td colspan="3">${esc(chapter?.name||ch)}</td></tr></table><table><tr><th>No</th><th>Nama Peserta Didik</th>${GRADE_COMPONENTS_V36.map(x=>`<th>${x[1]}</th>`).join('')}<th>Rata-rata</th><th>KKTP / Tindak Lanjut</th></tr>${rows}</table><div class="sign"><div>Mengetahui,<br>Wali Kelas<br><br><br><b>${esc(cls.homeroom||'________________')}</b></div><div>Klangenan, ____________<br>Guru Mata Pelajaran<br><br><br><b>${esc(I.teacher||'________________')}</b></div></div>`;
- let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');w.document.write(`<html><head><title>Daftar Nilai ${esc(cls.name)}</title><style>@page{size:A4 portrait;margin:12mm}body{font-family:Arial;margin:0;font-size:9.8pt;line-height:1.25}h1,h2{text-align:center;margin:3px}h1{font-size:16pt}h2{font-size:11.5pt}table{width:100%;border-collapse:collapse;margin:7px 0 12px}th,td{border:1px solid #111;padding:4.5px;text-align:center;vertical-align:middle}th{background:#eee}.name{text-align:left}.identity td{text-align:left}.identity td:nth-child(odd){font-weight:bold}.sign{display:grid;grid-template-columns:1fr 1fr;gap:40mm;text-align:center;margin-top:20px}@media print{tr{page-break-inside:avoid}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()
+ let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');w.document.write(`<html><head><title>Daftar Nilai ${esc(cls.name)}</title><style>@page{size:210mm 330mm;margin:12mm}body{font-family:Arial;margin:0;font-size:9.8pt;line-height:1.25}h1,h2{text-align:center;margin:3px}h1{font-size:16pt}h2{font-size:11.5pt}table{width:100%;border-collapse:collapse;margin:7px 0 12px}th,td{border:1px solid #111;padding:4.5px;text-align:center;vertical-align:middle}th{background:#eee}.name{text-align:left}.identity td{text-align:left}.identity td:nth-child(odd){font-weight:bold}.sign{display:grid;grid-template-columns:1fr 1fr;gap:40mm;text-align:center;margin-top:20px}@media print{tr{page-break-inside:avoid}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()
 }
 const ATT_MONTHS_V35=['Juli','Agustus','September','Oktober','November','Desember','Januari','Februari','Maret','April','Mei','Juni'];
 function ensureAttendanceV35(force=false){
@@ -1477,7 +1492,7 @@ function previewAttendanceV35(){
  const days=Array.from({length:31},(_,i)=>i+1);
  const rows=stud.map((s,i)=>{let r=data[s.id]||{},sum=attendanceSummaryV35(r);return `<tr><td>${i+1}</td><td class="name">${esc(s.name)}</td>${days.map(d=>`<td>${esc(r[d]||'H')}</td>`).join('')}<td>${sum.S}</td><td>${sum.I}</td><td>${sum.A}</td></tr>`}).join('');
  const body=`<h1>DAFTAR HADIR PESERTA DIDIK</h1><h2>BAHASA INGGRIS KELAS IX</h2><table class="identity"><tr><td>Satuan Pendidikan</td><td>${esc(I.school||'')}</td><td>Kelas</td><td>${esc(cls.name)}</td></tr><tr><td>Guru Mata Pelajaran</td><td>${esc(I.teacher||'')}</td><td>Wali Kelas</td><td>${esc(cls.homeroom||'')}</td></tr><tr><td>Bulan</td><td>${esc(ATT_MONTHS_V35[+mi-1])}</td><td>Semester / TP</td><td>${esc(sem)} / ${esc(I.year||'')}</td></tr></table><table class="att"><thead><tr><th rowspan="2">No</th><th rowspan="2">Nama Peserta Didik</th><th colspan="31">Tanggal</th><th colspan="3">Jumlah</th></tr><tr>${days.map(d=>`<th>${d}</th>`).join('')}<th>S</th><th>I</th><th>A</th></tr></thead><tbody>${rows}</tbody></table><p class="legend">Keterangan: H = Hadir • S = Sakit • I = Izin • A = Alpa</p><div class="sign"><div>Mengetahui,<br>Wali Kelas<br><br><br><b>${esc(cls.homeroom||'________________')}</b></div><div>Klangenan, ____________<br>Guru Mata Pelajaran<br><br><br><b>${esc(I.teacher||'________________')}</b></div></div>`;
- let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');w.document.write(`<html><head><title>Daftar Hadir ${esc(cls.name)}</title><style>@page{size:A4 portrait;margin:7mm}*{box-sizing:border-box}body{font-family:Arial;margin:0;font-size:7.1pt;line-height:1.12;color:#111}h1,h2{text-align:center;margin:2px}h1{font-size:14pt}h2{font-size:10.5pt;margin-bottom:5px}table{width:100%;border-collapse:collapse}.identity{margin-bottom:5px;font-size:8pt}.identity td{border:1px solid #111;padding:2px}.identity td:nth-child(odd){font-weight:bold;width:17%}.att{table-layout:fixed}.att th,.att td{border:.6px solid #111;text-align:center;padding:1px 0;height:14px;overflow:hidden;font-family:Arial,sans-serif}.att td{font-size:5.2pt;font-weight:400;color:#333;letter-spacing:0}.att th{font-size:5.6pt;font-weight:700;background:#e9eef7}.att td.name,.att th.name{font-size:7pt}.att tbody tr:nth-child(even) td{background:#fafbfd}.att th{font-size:6.2pt}.att th:nth-child(1),.att td:nth-child(1){width:4mm}.att th:nth-child(2),.att td:nth-child(2){width:34mm}.att .name{text-align:left;padding-left:2px;font-size:7.1pt;white-space:nowrap}.legend{font-size:7.2pt;margin:4px 0}.sign{display:grid;grid-template-columns:1fr 1fr;gap:25mm;text-align:center;font-size:8pt;margin-top:5px}@media print{tr{page-break-inside:avoid}body{print-color-adjust:exact}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()
+ let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');w.document.write(`<html><head><title>Daftar Hadir ${esc(cls.name)}</title><style>@page{size:210mm 330mm;margin:7mm}*{box-sizing:border-box}body{font-family:Arial;margin:0;font-size:7.1pt;line-height:1.12;color:#111}h1,h2{text-align:center;margin:2px}h1{font-size:14pt}h2{font-size:10.5pt;margin-bottom:5px}table{width:100%;border-collapse:collapse}.identity{margin-bottom:5px;font-size:8pt}.identity td{border:1px solid #111;padding:2px}.identity td:nth-child(odd){font-weight:bold;width:17%}.att{table-layout:fixed}.att th,.att td{border:.6px solid #111;text-align:center;padding:1px 0;height:14px;overflow:hidden;font-family:Arial,sans-serif}.att td{font-size:5.2pt;font-weight:400;color:#333;letter-spacing:0}.att th{font-size:5.6pt;font-weight:700;background:#e9eef7}.att td.name,.att th.name{font-size:7pt}.att tbody tr:nth-child(even) td{background:#fafbfd}.att th{font-size:6.2pt}.att th:nth-child(1),.att td:nth-child(1){width:4mm}.att th:nth-child(2),.att td:nth-child(2){width:34mm}.att .name{text-align:left;padding-left:2px;font-size:7.1pt;white-space:nowrap}.legend{font-size:7.2pt;margin:4px 0}.sign{display:grid;grid-template-columns:1fr 1fr;gap:25mm;text-align:center;font-size:8pt;margin-top:5px}@media print{tr{page-break-inside:avoid}body{print-color-adjust:exact}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()
 }
 function ensureJournalV34(){state.journalV34=state.journalV34||[]}
 function semesterForMeetingV34(ch,n){if(ch==='ch1'||ch==='ch2')return '1';if(ch==='ch3')return n<=3?'1':'2';return '2'}
@@ -1539,7 +1554,7 @@ function previewJournalV34(){
  saveJournalV34();let I=state.identity||{},cls=document.getElementById('journalFilterClassV34')?.value||document.getElementById('journalClassV34')?.value||'',sem=document.getElementById('journalFilterSemV34')?.value||'';
  let a=(state.journalV34||[]).filter(x=>(!cls||x.classId===cls)&&(!sem||x.semester===sem));
  let body=`<h1>JURNAL & AGENDA GURU</h1><h2>BAHASA INGGRIS KELAS IX</h2><table><tr><td>Nama Sekolah</td><td>${esc(I.school||'')}</td><td>Guru</td><td>${esc(I.teacher||'')}</td></tr><tr><td>Fase / Kelas</td><td>D / IX</td><td>Tahun Pelajaran</td><td>${esc(I.year||'')}</td></tr></table><table class="wide"><tr><th>No</th><th>Hari</th><th>Tanggal</th><th>Jam / Waktu</th><th>Kelas</th><th>Chapter / M</th><th>Materi / Topik</th><th>Tujuan</th><th>Kegiatan</th><th>Asesmen</th><th>Status</th><th>Hasil/Refleksi</th><th>Tindak Lanjut</th></tr>${a.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.day||'')}</td><td>${esc(x.date||'')}</td><td>${esc(x.time||'')}</td><td>${esc(x.className)}</td><td>${esc(x.chapterName)} / ${x.meeting}</td><td>${esc(x.topic)}</td><td>${esc(x.objective)}</td><td>${esc(x.activity)}</td><td>${esc(x.assessment)}</td><td>${esc(x.status)}</td><td>${esc([x.result,x.reflection].filter(Boolean).join(' | '))}</td><td>${esc(x.followUp)}</td></tr>`).join('')}</table><div class="sign"><div>Mengetahui,<br>Kepala Sekolah<br><br><br><b>${esc(I.principal||'________________')}</b></div><div>Klangenan, ____________<br>Guru Bahasa Inggris<br><br><br><b>${esc(I.teacher||'________________')}</b></div></div>`;
- let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');w.document.write(`<html><head><title>Jurnal Agenda Guru</title><style>body{font-family:Arial;margin:10mm;font-size:8.8pt;line-height:1.25}h1,h2{text-align:center}h1{font-size:16pt}h2{font-size:12pt}table{width:100%;border-collapse:collapse;margin:8px 0 14px}th,td{border:1px solid #111;padding:4px;vertical-align:top}th{background:#eee}.wide{font-size:7.8pt}.sign{display:grid;grid-template-columns:1fr 1fr;gap:60px;text-align:center;margin-top:24px}@media print{@page{size:A4 landscape;margin:10mm}body{margin:0}tr{page-break-inside:avoid}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()
+ let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');w.document.write(`<html><head><title>Jurnal Agenda Guru</title><style>body{font-family:Arial;margin:10mm;font-size:8.8pt;line-height:1.25}h1,h2{text-align:center}h1{font-size:16pt}h2{font-size:12pt}table{width:100%;border-collapse:collapse;margin:8px 0 14px}th,td{border:1px solid #111;padding:4px;vertical-align:top}th{background:#eee}.wide{font-size:7.8pt}.sign{display:grid;grid-template-columns:1fr 1fr;gap:60px;text-align:center;margin-top:24px}@media print{@page{size:210mm 330mm;margin:10mm}body{margin:0}tr{page-break-inside:avoid}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()
 }
 const MODULE_FLOW_V33=['OPENING','EXPLORE','LEARN','PRACTICE','TASK / LKPD','CREATE','SHARE','REFLECT','CLOSING'];
 function ensureModulesV33(){
@@ -1651,7 +1666,7 @@ function previewModuleV33(){
  <h3>B. LANGKAH PEMBELAJARAN</h3><table><tr><th>Tahap</th><th>Aktivitas</th></tr>${[['OPENING',f.opening],['EXPLORE',f.explore],['LEARN',f.learn],['PRACTICE',f.practice],['TASK / LKPD',f.task],['CREATE',f.create],['SHARE',f.share],['REFLECT',f.reflect],['CLOSING',f.closing]].map(z=>`<tr><td class="lab">${z[0]}</td><td>${esc(z[1]||'')}</td></tr>`).join('')}</table>
  <h3>C. Aktivitas, Asesmen / Penilaian &amp; Tindak Lanjut</h3><table>${row('Aktivitas Guru',x.guru)}${row('Aktivitas Siswa',x.siswa)}${row('Latihan',x.latihan)}${row('LKPD / Task',x.lkpd)}${row('Product',x.product)}${row('Sharing / Presentation',x.sharing)}${row('Reflection',x.reflection)}${row('Assessment',x.assessment)}${row('Remedial',x.remedial)}${row('Pengayaan',x.enrichment)}${row('Lampiran',x.lampiran)}</table>
  <div class="sign"><div>Mengetahui,<br>Kepala Sekolah<br><br><br><b>${esc(I.principal||'________________')}</b></div><div>Klangenan, ____________<br>Guru Bahasa Inggris<br><br><br><b>${esc(I.teacher||'________________')}</b></div></div>`;
- const w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');w.document.write(`<html><head><title>Modul Ajar RPP ${esc(x.chapterName)} M${n}</title><style>body{font-family:'Times New Roman',Times,serif;margin:15mm;font-size:11.5pt;line-height:1.3;color:#000}h1,h2{text-align:center;margin:2px 0}h1{font-size:14pt;letter-spacing:.3px}h2{font-size:12.5pt;margin-bottom:10px}h3{font-size:11.5pt;margin:12px 0 0;padding:4px 7px;background:#d9e2f3;border:1px solid #000;border-bottom:0;text-transform:uppercase}table{width:100%;border-collapse:collapse;margin:0 0 10px}th,td{border:1px solid #000;padding:5px 7px;vertical-align:top;text-align:left}th{background:#d9e2f3}.lab{width:27%;font-weight:bold}.sign{display:grid;grid-template-columns:1fr 1fr;gap:60px;text-align:center;margin-top:28px}@media print{@page{size:A4 portrait;margin:15mm}body{margin:0}tr{page-break-inside:avoid}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();
+ const w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');w.document.write(`<html><head><title>Modul Ajar RPP ${esc(x.chapterName)} M${n}</title><style>body{font-family:'Times New Roman',Times,serif;margin:15mm;font-size:11.5pt;line-height:1.3;color:#000}h1,h2{text-align:center;margin:2px 0}h1{font-size:14pt;letter-spacing:.3px}h2{font-size:12.5pt;margin-bottom:10px}h3{font-size:11.5pt;margin:12px 0 0;padding:4px 7px;background:#d9e2f3;border:1px solid #000;border-bottom:0;text-transform:uppercase}table{width:100%;border-collapse:collapse;margin:0 0 10px}th,td{border:1px solid #000;padding:5px 7px;vertical-align:top;text-align:left}th{background:#d9e2f3}.lab{width:27%;font-weight:bold}.sign{display:grid;grid-template-columns:1fr 1fr;gap:60px;text-align:center;margin-top:28px}@media print{@page{size:210mm 330mm;margin:15mm}body{margin:0}tr{page-break-inside:avoid}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();
 }
 const PLAN32_DEFAULT={chapters:[{id:'ch1',name:'Chapter 1 — Exploring Fauna of Indonesia',semester:'1'},{id:'ch2',name:'Chapter 2 — Taking Trips',semester:'1'},{id:'ch3',name:'Chapter 3',semester:'1–2'},{id:'ch4',name:'Chapter 4',semester:'2'},{id:'ch5',name:'Chapter 5',semester:'2'}],semester:[{label:'Semester 1',allocation:'54 JP',distribution:'3 JP fleksibel + Chapter 1 M1–M7 + Chapter 2 M1–M7 + Chapter 3 M1–M3'},{label:'Semester 2',allocation:'54 JP',distribution:'Chapter 3 M4–M7 + Chapter 4 M1–M7 + Chapter 5 M1–M7'}],pattern:[['Konteks / kosakata / input','Membangun konteks dan sumber daya bahasa','Explore konteks; aktivasi pengetahuan awal','Latihan kosakata/input','Task awal / respons terarah','Evidence awal','Formatif'],['Listening–speaking / language use','Menggunakan bahasa melalui interaksi','Listening; pair/group interaction','Guided speaking practice','Task komunikasi','Performa/interaksi','Formatif'],['Reading–viewing','Memahami teks/visual terkait chapter','Read/view; identify main information','Comprehension practice','Task pemahaman','Jawaban/evidence membaca','Formatif'],['Informasi spesifik / interpretasi','Menemukan dan menginterpretasi informasi','Locate details; interpret meaning','Specific-information practice','Task interpretasi','Hasil identifikasi/interpretasi','Formatif'],['Model teks / language features','Mengenali model dan unsur kebahasaan','Analyze model text/language features','Guided language practice','Task berbasis model','Draft/analisis model','Formatif'],['Produksi terbimbing → mandiri','Menghasilkan teks/performa sesuai target chapter','Plan; guided production; independent creation','Draft/rehearsal','Create','Draft/produk','Formatif + feedback'],['Produk/performa final + asesmen','Menyajikan produk/performa final dan merefleksi','Finalize; share/present; reflect','Final check','Final task','Produk/performa final','Sumatif chapter + refleksi']]};
 
@@ -1719,14 +1734,14 @@ function seedPlanningV32(force=false){if(force&&!confirm('Muat ulang Master Fina
 function renderPlanningV32(){ensurePlanningV32();let p=state.planningV32,e=document.getElementById('protaV32');if(e)e.innerHTML=`<table class="data-table"><thead><tr><th>Program</th><th>Semester</th><th>Pertemuan</th><th>Alokasi</th></tr></thead><tbody>${p.chapters.map(c=>`<tr><td>${esc(c.name)}</td><td>${esc(c.semester)}</td><td>7</td><td>21 JP</td></tr>`).join('')}<tr><td><b>JP Fleksibel</b></td><td>1</td><td>—</td><td>3 JP</td></tr><tr><td colspan="3"><b>Total Tahunan</b></td><td><b>108 JP</b></td></tr></tbody></table>`;e=document.getElementById('promesV32');if(e)e.innerHTML=`<table class="data-table"><thead><tr><th>Semester</th><th>Distribusi Final</th><th>Alokasi</th></tr></thead><tbody>${p.semester.map(x=>`<tr><td><b>${x.label}</b></td><td>${x.distribution}</td><td>${x.allocation}</td></tr>`).join('')}</tbody></table>`;let ch=document.getElementById('meetingChapterV32'),no=document.getElementById('meetingNoV32');if(ch){let ov=ch.value;ch.innerHTML=p.chapters.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');if(ov)ch.value=ov}if(no){let ov=no.value;no.innerHTML=[1,2,3,4,5,6,7].map(n=>`<option value="${n}">Pertemuan ${n}</option>`).join('');if(ov)no.value=ov}renderMeetingEditorV32();setTimeout(()=>{try{renderPromesScreenV456()}catch(e){}},0)}
 function renderMeetingEditorV32(){ensurePlanningV32();let cid=document.getElementById('meetingChapterV32')?.value||'ch1',n=+(document.getElementById('meetingNoV32')?.value||1),x=state.planningV32.meetingMap.find(z=>z.chapterId===cid&&z.meeting===n),b=document.getElementById('meetingEditorV32');if(!x||!b)return;let f=[['tujuan','Tujuan'],['materi','Materi'],['aktivitas','Aktivitas'],['latihan','Latihan'],['task','Task'],['product','Product / Evidence'],['assessment','Assessment'],['kktp','KKTP'],['remedial','Remedial'],['enrichment','Pengayaan']];ensureMeetingScheduleV456();let sem=meetingSemV456(cid),months=PLAN_MONTHS_V456[+sem]||PLAN_MONTHS_V456[1];b.innerHTML=`<div class="card" style="margin-top:12px"><h3>Meeting ${n} • 3 JP</h3><p class="muted">TUJUAN → MATERI → AKTIVITAS → LATIHAN → TASK/PRODUCT → ASSESSMENT</p><div class="grid g2 meeting-slot-v456"><div><label>Bulan Penempatan</label><select id="meetingMonthV456">${months.map(m=>`<option ${x.month===m?'selected':''}>${m}</option>`).join('')}</select></div><div><label>Minggu Ke-</label><select id="meetingWeekV456">${[1,2,3,4,5].map(w=>`<option value="${w}" ${+x.week===w?'selected':''}>Minggu ${w}</option>`).join('')}</select></div></div><div class="notice" style="margin:8px 0"><b>Sinkronisasi:</b> penempatan ini otomatis menjadi tanda ✓ pada PROMES.</div>${f.map(q=>`<label>${q[1]}</label><textarea data-plan-field="${q[0]}">${esc(x[q[0]]||'')}</textarea>`).join('')}<button class="btn good" onclick="saveMeetingV32()">Simpan Meeting & Sinkronkan PROMES</button></div>`}
 function saveMeetingV32(){let cid=document.getElementById('meetingChapterV32').value,n=+document.getElementById('meetingNoV32').value,x=state.planningV32.meetingMap.find(z=>z.chapterId===cid&&z.meeting===n);document.querySelectorAll('#meetingEditorV32 [data-plan-field]').forEach(el=>x[el.dataset.planField]=el.value.trim());x.month=document.getElementById('meetingMonthV456')?.value||x.month;x.week=+(document.getElementById('meetingWeekV456')?.value||x.week||1);persist();renderPromesScreenV456();toast('✓ Meeting Map tersimpan dan PROMES tersinkron.')}
-function previewPlanningV32(){ensurePlanningV32();let p=state.planningV32,I=state.identity||{},rows=p.meetingMap.map(x=>{let c=p.chapters.find(z=>z.id===x.chapterId);return `<tr><td>${esc(c.name)}</td><td>${x.meeting}</td><td>${esc(x.tujuan)}</td><td>${esc(x.materi)}</td><td>${esc(x.aktivitas)}</td><td>${esc(x.latihan)}</td><td>${esc(x.task)}</td><td>${esc(x.product)}</td><td>${esc(x.assessment)}</td></tr>`}).join(''),body=`<h1>PROTA, PROMES & MEETING MAP</h1><h2>BAHASA INGGRIS KELAS IX</h2><p><b>Sekolah:</b> ${esc(I.school||'SMPN 1 Klangenan')} &nbsp; <b>Guru:</b> ${esc(I.teacher||'Taufiqurrohman, S.Pd')} &nbsp; <b>Tahun:</b> ${esc(I.year||'2026 / 2027')}</p><h2>PROTA</h2><table><tr><th>Chapter</th><th>Semester</th><th>Pertemuan</th><th>JP</th></tr>${p.chapters.map(c=>`<tr><td>${esc(c.name)}</td><td>${c.semester}</td><td>7</td><td>21</td></tr>`).join('')}<tr><td>Fleksibel</td><td>1</td><td>—</td><td>3</td></tr></table><h2>PROMES</h2><table><tr><th>Semester</th><th>Distribusi</th><th>Alokasi</th></tr>${p.semester.map(x=>`<tr><td>${x.label}</td><td>${x.distribution}</td><td>${x.allocation}</td></tr>`).join('')}</table><h2>MEETING MAP</h2><table class="wide"><tr><th>Chapter</th><th>M</th><th>Tujuan</th><th>Materi</th><th>Aktivitas</th><th>Latihan</th><th>Task</th><th>Product</th><th>Assessment</th></tr>${rows}</table>`;let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');w.document.write(`<html><head><style>body{font-family:Arial;margin:10mm;font-size:9.6pt;line-height:1.25}h1,h2{text-align:center}table{width:100%;border-collapse:collapse;margin:8px 0 16px}th,td{border:1px solid #111;padding:4px;vertical-align:top}th{background:#eee}.wide{font-size:7.8pt}@media print{@page{size:A4 landscape;margin:10mm}body{margin:0}tr{page-break-inside:avoid}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()}
+function previewPlanningV32(){ensurePlanningV32();let p=state.planningV32,I=state.identity||{},rows=p.meetingMap.map(x=>{let c=p.chapters.find(z=>z.id===x.chapterId);return `<tr><td>${esc(c.name)}</td><td>${x.meeting}</td><td>${esc(x.tujuan)}</td><td>${esc(x.materi)}</td><td>${esc(x.aktivitas)}</td><td>${esc(x.latihan)}</td><td>${esc(x.task)}</td><td>${esc(x.product)}</td><td>${esc(x.assessment)}</td></tr>`}).join(''),body=`<h1>PROTA, PROMES & MEETING MAP</h1><h2>BAHASA INGGRIS KELAS IX</h2><p><b>Sekolah:</b> ${esc(I.school||'SMPN 1 Klangenan')} &nbsp; <b>Guru:</b> ${esc(I.teacher||'Taufiqurrohman, S.Pd')} &nbsp; <b>Tahun:</b> ${esc(I.year||'2026 / 2027')}</p><h2>PROTA</h2><table><tr><th>Chapter</th><th>Semester</th><th>Pertemuan</th><th>JP</th></tr>${p.chapters.map(c=>`<tr><td>${esc(c.name)}</td><td>${c.semester}</td><td>7</td><td>21</td></tr>`).join('')}<tr><td>Fleksibel</td><td>1</td><td>—</td><td>3</td></tr></table><h2>PROMES</h2><table><tr><th>Semester</th><th>Distribusi</th><th>Alokasi</th></tr>${p.semester.map(x=>`<tr><td>${x.label}</td><td>${x.distribution}</td><td>${x.allocation}</td></tr>`).join('')}</table><h2>MEETING MAP</h2><table class="wide"><tr><th>Chapter</th><th>M</th><th>Tujuan</th><th>Materi</th><th>Aktivitas</th><th>Latihan</th><th>Task</th><th>Product</th><th>Assessment</th></tr>${rows}</table>`;let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');w.document.write(`<html><head><style>body{font-family:Arial;margin:10mm;font-size:9.6pt;line-height:1.25}h1,h2{text-align:center}table{width:100%;border-collapse:collapse;margin:8px 0 16px}th,td{border:1px solid #111;padding:4px;vertical-align:top}th{background:#eee}.wide{font-size:7.8pt}@media print{@page{size:210mm 330mm;margin:10mm}body{margin:0}tr{page-break-inside:avoid}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()}
 const CM31={cp:[['MB-1','Memahami ide utama teks lisan pada topik familiar.'],['MB-2','Memahami detail yang relevan dari diskusi/presentasi.'],['MB-3','Berinteraksi dalam konteks formal dan informal yang familiar.'],['MB-4','Bertukar ide, pengalaman, minat, pendapat, dan pandangan.'],['MB-5','Memberikan pendapat, membuat perbandingan, dan menyatakan preferensi.'],['MB-6','Menjelaskan dan memperjelas jawaban dengan struktur kalimat dan bentuk kata kerja sederhana.'],['MM-1','Membaca dan merespons teks familiar maupun tidak familiar secara mandiri.'],['MM-2','Mencari dan mengevaluasi ide utama.'],['MM-3','Menemukan informasi spesifik.'],['MM-4','Memahami teks cetak, digital, visual, multimodal, dan interaktif.'],['MM-5','Mengidentifikasi tujuan teks.'],['MM-6','Mulai membuat inferensi untuk memahami informasi tersirat.'],['MP-1','Mengomunikasikan ide dan pengalaman melalui paragraf sederhana dan terstruktur.'],['MP-2','Mengembangkan kosakata spesifik dan struktur kalimat sederhana.'],['MP-3','Merencanakan, menulis, dan menyajikan teks dengan menggunakan model.'],['MP-4','Menggunakan kalimat sederhana dan majemuk untuk menjelaskan gagasan.'],['MP-5','Menyertakan informasi dasar dan detail.'],['MP-6','Mengungkapkan gagasan dalam bentuk sekarang, masa depan, dan masa lalu.'],['MP-7','Menggunakan penanda waktu, adverbia frekuensi, dan konjungsi umum.'],['MP-8','Menggunakan ejaan, tanda baca, dan kapitalisasi secara semakin konsisten.']],
 tp:[['TP-1.1','Ch.1','Membicarakan satwa asli Indonesia menggunakan kosakata dan ungkapan yang sesuai.','Speaking/Interaction'],['TP-1.2','Ch.1','Mengidentifikasi dan menemukan informasi spesifik tentang satwa Indonesia dari teks tulis, visual, atau multimodal.','Reading/Viewing'],['TP-1.3','Ch.1','Mendeskripsikan karakteristik dan ciri hewan menggunakan kosakata dan struktur bahasa yang sesuai.','Writing/Presenting'],['TP-2.1','Ch.2','Menceritakan dan bertukar informasi mengenai pengalaman pribadi di masa lalu.','Listening/Speaking'],['TP-2.2','Ch.2','Mengidentifikasi informasi dan urutan peristiwa masa lalu dalam recount.','Reading/Sequencing'],['TP-2.3','Ch.2','Menulis pengalaman pribadi di masa lalu secara runtut.','Writing'],['TP-3.1','Ch.3','Menghubungkan dan mengurutkan peristiwa dalam cerita fantasi.','Listening/Reading'],['TP-3.2','Ch.3','Menganalisis pola masalah-solusi yang dihadapi tokoh utama.','Reading/Viewing'],['TP-3.3','Ch.3','Menulis ulang cerita fantasi secara runtut.','Writing'],['TP-4.1','Ch.4','Membicarakan benda dengan mendeskripsikan bahan dan fungsinya.','Speaking'],['TP-4.2','Ch.4','Mengidentifikasi dan mengategorikan informasi spesifik tentang barang dan harganya.','Reading/Viewing'],['TP-4.3','Ch.4','Mendeskripsikan objek dengan karakteristik dan detail spesifik.','Writing/Presenting'],['TP-5.1','Ch.5','Meminta dan memberikan informasi tentang cara menggunakan mesin pencari.','Listening/Speaking'],['TP-5.2','Ch.5','Mengidentifikasi informasi spesifik tentang cara menjaga keamanan di dunia daring.','Reading/Viewing'],['TP-5.3','Ch.5','Menulis teks prosedur secara runtut menggunakan struktur dan unsur kebahasaan yang sesuai.','Writing/Presenting']],
 atp:[['Foundation','Chapter 0','Language readiness','Basic classroom interaction dan kesiapan sumber daya bahasa'],['TP-1.1 → TP-1.2 → TP-1.3','Chapter 1','Observe → understand → describe','Deskripsi/report fauna Indonesia'],['TP-2.1 → TP-2.2 → TP-2.3','Chapter 2','Experience → sequence → recount','Personal recount'],['TP-3.1 → TP-3.2 → TP-3.3','Chapter 3','Sequence → interpret → narrate','Fantasy narrative'],['TP-4.1 → TP-4.2 → TP-4.3','Chapter 4','Observe → classify → describe/communicate','Detailed object/product description'],['TP-5.1 → TP-5.2 → TP-5.3','Chapter 5','Understand → instruct → create','Procedure text terkait digital life']],
 ev:['Performa lisan tentang fauna Indonesia','Hasil identifikasi informasi spesifik','Deskripsi/report hewan','Interaksi lisan tentang pengalaman','Urutan peristiwa/recount comprehension','Personal recount','Sequence of fantasy events','Problem-solution analysis','Rewritten fantasy story','Penjelasan material dan fungsi','Kategorisasi barang/harga','Detailed object description','Ask/give information performance','Online-safety comprehension','Procedure text']};
 function seedCurriculumMaster(force=false){ensureState();state.curriculum.tp=state.curriculum.tp||[];if(force&&!confirm('Muat ulang Master Final CP–TP–ATP–KKTP?'))return;if(force||(!state.curriculum.cp.length&&!state.curriculum.atp.length&&!state.curriculum.kktp.length&&!state.curriculum.tp.length)){state.curriculum.cp=CM31.cp.map((x,i)=>({id:'cp'+i,code:x[0],text:x[1],detail:x[1]}));state.curriculum.tp=CM31.tp.map((x,i)=>({id:'tp'+i,code:x[0],chapter:x[1],text:x[2],skill:x[3],detail:x[2]}));state.curriculum.atp=CM31.atp.map((x,i)=>({id:'atp'+i,code:x[0],chapter:x[1],text:x[2],target:x[3],detail:x[3]}));state.curriculum.kktp=CM31.tp.map((x,i)=>({id:'kk'+i,code:x[0],chapter:x[1],criteria:CM31.ev[i],value:'4-level',detail:CM31.ev[i]}));persist();renderCurriculum();}}
 function addCurriculumV31(t){ensureState();state.curriculum.tp=state.curriculum.tp||[];let x={id:Date.now().toString()+Math.random()};if(t==='tp'){x.code=v('tpCode');x.chapter=v('tpChapter');x.skill=v('tpSkill');x.text=v('tpText');if(!x.code||!x.text)return toast('⚠ Isi kode dan TP.');x.detail=x.text;state.curriculum.tp.push(x)}else if(t==='atp'){x.code=v('atpCode');x.chapter=v('atpChapter');x.target=v('atpTarget');x.text=v('atpText');if(!x.chapter||!x.text)return toast('⚠ Isi Chapter dan progression.');x.detail=x.target;state.curriculum.atp.push(x)}else{x.code=v('kktpCode');x.chapter=v('kktpChapter');x.criteria=v('kktpCriteria');x.value='4-level';if(!x.code||!x.criteria)return toast('⚠ Isi kode TP dan evidence.');x.detail=x.criteria;state.curriculum.kktp.push(x)}persist();renderCurriculum()}
-function previewCurriculumDoc(){ensureState();seedCurriculumMaster(false);let I=state.identity||{},cp=state.curriculum.cp||[],tp=state.curriculum.tp||[],atp=state.curriculum.atp||[],kk=state.curriculum.kktp||[];let id=`<table><tr><td>Nama Penyusun</td><td>${esc(I.teacher||'Taufiqurrohman, S.Pd')}</td></tr><tr><td>Nama Sekolah</td><td>${esc(I.school||'SMPN 1 Klangenan')}</td></tr><tr><td>Mata Pelajaran</td><td>Bahasa Inggris</td></tr><tr><td>Fase / Kelas</td><td>D / IX (Sembilan)</td></tr><tr><td>Semester</td><td>I (Ganjil) & II (Genap)</td></tr><tr><td>Tahun Pelajaran</td><td>${esc(I.year||'2026 / 2027')}</td></tr></table>`;let body=`<h1>PERANGKAT KURIKULUM</h1><h2>KURIKULUM MERDEKA — BAHASA INGGRIS KELAS IX</h2>${id}<h2>A. CAPAIAN PEMBELAJARAN (CP)</h2><table><tr><th>Kode</th><th>Kompetensi Operasional</th></tr>${cp.map(x=>`<tr><td>${esc(x.code)}</td><td>${esc(x.text)}</td></tr>`).join('')}</table><h2>B. TUJUAN PEMBELAJARAN (TP)</h2><table><tr><th>Kode</th><th>Chapter</th><th>Tujuan Pembelajaran</th><th>Dominan</th></tr>${tp.map(x=>`<tr><td>${esc(x.code)}</td><td>${esc(x.chapter)}</td><td>${esc(x.text)}</td><td>${esc(x.skill||'')}</td></tr>`).join('')}</table><h2>C. ALUR TUJUAN PEMBELAJARAN (ATP)</h2><table><tr><th>Chapter</th><th>Alur TP</th><th>Progression</th><th>Target</th></tr>${atp.map(x=>`<tr><td>${esc(x.chapter)}</td><td>${esc(x.code)}</td><td>${esc(x.text)}</td><td>${esc(x.target||'')}</td></tr>`).join('')}</table><h2>D. KKTP</h2><table><tr><th>TP</th><th>Chapter</th><th>Evidence</th><th>0–40%</th><th>41–65%</th><th>66–85%</th><th>86–100%</th></tr>${kk.map(x=>`<tr><td>${esc(x.code)}</td><td>${esc(x.chapter||'')}</td><td>${esc(x.criteria||'')}</td><td>Remedial seluruh bagian</td><td>Remedial bagian diperlukan</td><td>Tuntas</td><td>Pengayaan</td></tr>`).join('')}</table><div class="sign"><div>Mengetahui,<br>Kepala Sekolah<br><br><br>${esc(I.principal||'________________')}</div><div>Klangenan, ____________<br>Guru Bahasa Inggris Fase D Kelas IX<br><br><br>${esc(I.teacher||'Taufiqurrohman, S.Pd')}</div></div>`;let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');w.document.write(`<html><head><title>Perangkat Kurikulum</title><style>body{font-family:Arial;margin:15mm;font-size:10pt}h1,h2{text-align:center}h1{font-size:17pt}h2{font-size:12pt;margin-top:18px}table{width:100%;border-collapse:collapse;margin:10px 0 18px}th,td{border:1px solid #111;padding:5.5px;vertical-align:top}th{background:#eee}.sign{display:grid;grid-template-columns:1fr 1fr;gap:60px;text-align:center;margin-top:30px}@media print{@page{size:A4 portrait;margin:15mm}body{margin:0}tr{page-break-inside:avoid}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()}
+function previewCurriculumDoc(){ensureState();seedCurriculumMaster(false);let I=state.identity||{},cp=state.curriculum.cp||[],tp=state.curriculum.tp||[],atp=state.curriculum.atp||[],kk=state.curriculum.kktp||[];let id=`<table><tr><td>Nama Penyusun</td><td>${esc(I.teacher||'Taufiqurrohman, S.Pd')}</td></tr><tr><td>Nama Sekolah</td><td>${esc(I.school||'SMPN 1 Klangenan')}</td></tr><tr><td>Mata Pelajaran</td><td>Bahasa Inggris</td></tr><tr><td>Fase / Kelas</td><td>D / IX (Sembilan)</td></tr><tr><td>Semester</td><td>I (Ganjil) & II (Genap)</td></tr><tr><td>Tahun Pelajaran</td><td>${esc(I.year||'2026 / 2027')}</td></tr></table>`;let body=`<h1>PERANGKAT KURIKULUM</h1><h2>KURIKULUM MERDEKA — BAHASA INGGRIS KELAS IX</h2>${id}<h2>A. CAPAIAN PEMBELAJARAN (CP)</h2><table><tr><th>Kode</th><th>Kompetensi Operasional</th></tr>${cp.map(x=>`<tr><td>${esc(x.code)}</td><td>${esc(x.text)}</td></tr>`).join('')}</table><h2>B. TUJUAN PEMBELAJARAN (TP)</h2><table><tr><th>Kode</th><th>Chapter</th><th>Tujuan Pembelajaran</th><th>Dominan</th></tr>${tp.map(x=>`<tr><td>${esc(x.code)}</td><td>${esc(x.chapter)}</td><td>${esc(x.text)}</td><td>${esc(x.skill||'')}</td></tr>`).join('')}</table><h2>C. ALUR TUJUAN PEMBELAJARAN (ATP)</h2><table><tr><th>Chapter</th><th>Alur TP</th><th>Progression</th><th>Target</th></tr>${atp.map(x=>`<tr><td>${esc(x.chapter)}</td><td>${esc(x.code)}</td><td>${esc(x.text)}</td><td>${esc(x.target||'')}</td></tr>`).join('')}</table><h2>D. KKTP</h2><table><tr><th>TP</th><th>Chapter</th><th>Evidence</th><th>0–40%</th><th>41–65%</th><th>66–85%</th><th>86–100%</th></tr>${kk.map(x=>`<tr><td>${esc(x.code)}</td><td>${esc(x.chapter||'')}</td><td>${esc(x.criteria||'')}</td><td>Remedial seluruh bagian</td><td>Remedial bagian diperlukan</td><td>Tuntas</td><td>Pengayaan</td></tr>`).join('')}</table><div class="sign"><div>Mengetahui,<br>Kepala Sekolah<br><br><br>${esc(I.principal||'________________')}</div><div>Klangenan, ____________<br>Guru Bahasa Inggris Fase D Kelas IX<br><br><br>${esc(I.teacher||'Taufiqurrohman, S.Pd')}</div></div>`;let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');w.document.write(`<html><head><title>Perangkat Kurikulum</title><style>body{font-family:Arial;margin:15mm;font-size:10pt}h1,h2{text-align:center}h1{font-size:17pt}h2{font-size:12pt;margin-top:18px}table{width:100%;border-collapse:collapse;margin:10px 0 18px}th,td{border:1px solid #111;padding:5.5px;vertical-align:top}th{background:#eee}.sign{display:grid;grid-template-columns:1fr 1fr;gap:60px;text-align:center;margin-top:30px}@media print{@page{size:210mm 330mm;margin:15mm}body{margin:0}tr{page-break-inside:avoid}}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()}
 function addCurriculum(type){
  ensureState(); let x={id:Date.now().toString()};
  if(type==='cp'){x.code=v('cpCode');x.text=v('cpText');x.detail=x.text;if(!x.text)return toast('⚠ Isi deskripsi CP.')}
@@ -2193,8 +2208,8 @@ function renderMeetingStatusV455(){const e=document.getElementById('meetingStatu
 function markMeetingV455(){const cid=document.getElementById('attendanceClassV35')?.value,sem=document.getElementById('attendanceSemV455')?.value||'1',n=document.getElementById('meetingSelectV455')?.value,mi=document.getElementById('attendanceMonthV35')?.value,day=document.getElementById('meetingDayV455')?.value;if(!cid||!n)return;let s=meetingStoreV455(cid,sem);if(s[n]&&!confirm(`Pertemuan ${n} sudah ditandai. Perbarui?`))return;s[n]={month:String(mi),day:String(day),updatedAt:new Date().toISOString()};persist();queueAutoSyncV455();renderMeetingV455();renderSemesterV455();toast(`✓ Pertemuan ${n} ditandai sudah presensi.`)}
 function semesterRowsV455(cid,sem){const students=attendanceClassStudentsV35(cid),out={};students.forEach(s=>out[s.id]={s,H:0,S:0,I:0,A:0,total:0});semesterMonthsV455(sem).forEach(mi=>{let md=state.attendanceV35?.[cid]?.[String(mi)]||{};students.forEach(s=>{let r=md[s.id]||{};Object.values(r).forEach(v=>{v=String(v||'').toUpperCase();if(['H','S','I','A'].includes(v)){out[s.id][v]++;out[s.id].total++}})})});return Object.values(out)}
 function renderSemesterV455(){const box=document.getElementById('semesterTableV455'),info=document.getElementById('semesterInfoV455');if(!box)return;const cid=document.getElementById('attendanceClassV35')?.value||'',sem=document.getElementById('attendanceSemV455')?.value||'1',cls=(state.classes||[]).find(c=>c.id===cid),rows=semesterRowsV455(cid,sem),done=Object.keys(meetingStoreV455(cid,sem)).length;if(info)info.innerHTML=`<div class="notice"><b>${esc(cls?.name||'Kelas')}</b> • Semester ${esc(sem)} • <b>${done}/25 pertemuan</b> selesai.</div>`;box.innerHTML=`<table><thead><tr><th>No</th><th style="text-align:left">Nama Siswa</th><th>Hadir</th><th>Sakit</th><th>Izin</th><th>Alpa</th><th>Total</th></tr></thead><tbody>${rows.map((x,i)=>`<tr><td>${i+1}</td><td style="text-align:left">${esc(x.s.name)}</td><td>${x.H}</td><td>${x.S}</td><td>${x.I}</td><td>${x.A}</td><td><b>${x.total}</b></td></tr>`).join('')||'<tr><td colspan="7">Belum ada data.</td></tr>'}</tbody></table>`}
-function previewAttendanceV455(){const cid=document.getElementById('attendanceClassV35')?.value,mi=document.getElementById('attendanceMonthV35')?.value||'1',sem=document.getElementById('attendanceSemV455')?.value||'1',cls=(state.classes||[]).find(c=>c.id===cid),stud=attendanceClassStudentsV35(cid),data=state.attendanceV35?.[cid]?.[mi]||{},I=state.identity||{};if(!cls)return alert('Pilih kelas.');const days=Array.from({length:daysMonthV455(+mi)},(_,i)=>i+1),rows=stud.map((s,i)=>{let r=data[s.id]||{},sum=attendanceSummaryV35(r);return `<tr><td>${i+1}</td><td class="nm">${esc(s.name)}</td>${days.map(d=>`<td>${esc(r[d]||'H')}</td>`).join('')}<td>${sum.H}</td><td>${sum.S}</td><td>${sum.I}</td><td>${sum.A}</td></tr>`}).join('');let body=`<h1>DAFTAR HADIR PESERTA DIDIK</h1><h2>BAHASA INGGRIS KELAS IX</h2><div class="meta"><span><b>Sekolah:</b> ${esc(I.school||'')}</span><span><b>Kelas:</b> ${esc(cls.name)}</span><span><b>Bulan:</b> ${esc(ATT_MONTHS_V35[+mi-1])}</span><span><b>Guru:</b> ${esc(I.teacher||'')}</span><span><b>Semester:</b> ${esc(sem)}</span><span><b>TP:</b> ${esc(I.year||'')}</span></div><table><thead><tr><th rowspan="2" class="no">No</th><th rowspan="2" class="nm">Nama Peserta Didik</th><th colspan="${days.length}">Tanggal</th><th colspan="4">Jumlah</th></tr><tr>${days.map(d=>`<th>${d}</th>`).join('')}<th>H</th><th>S</th><th>I</th><th>A</th></tr></thead><tbody>${rows}</tbody></table><div class="foot"><b>H=Hadir • S=Sakit • I=Izin • A=Alpa</b></div>`;let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up.');w.document.write(`<html><head><style>@page{size:A4 landscape;margin:6mm}*{box-sizing:border-box}body{font-family:Arial;font-size:7pt;margin:0}h1,h2{text-align:center;margin:0}h1{font-size:13pt}h2{font-size:9pt;margin-bottom:3mm}.meta{display:grid;grid-template-columns:1.3fr .8fr 1fr;gap:1.5mm 5mm;margin-bottom:3mm}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:.6px solid #222;text-align:center;padding:1px;height:15px}.no{width:5mm}.nm{width:43mm;text-align:left;padding-left:1.5mm;white-space:nowrap;overflow:hidden}.foot{margin-top:2mm}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()}
-function printSemesterV455(){const cid=document.getElementById('attendanceClassV35')?.value,sem=document.getElementById('attendanceSemV455')?.value||'1',cls=(state.classes||[]).find(c=>c.id===cid),rows=semesterRowsV455(cid,sem),I=state.identity||{};let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up.');let tr=rows.map((x,i)=>`<tr><td>${i+1}</td><td style="text-align:left">${esc(x.s.name)}</td><td>${x.H}</td><td>${x.S}</td><td>${x.I}</td><td>${x.A}</td><td>${x.total}</td></tr>`).join('');w.document.write(`<html><head><style>@page{size:A4 portrait;margin:12mm}body{font-family:Arial;font-size:10pt}h1,h2{text-align:center;margin:3px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #222;padding:5px;text-align:center}
+function previewAttendanceV455(){const cid=document.getElementById('attendanceClassV35')?.value,mi=document.getElementById('attendanceMonthV35')?.value||'1',sem=document.getElementById('attendanceSemV455')?.value||'1',cls=(state.classes||[]).find(c=>c.id===cid),stud=attendanceClassStudentsV35(cid),data=state.attendanceV35?.[cid]?.[mi]||{},I=state.identity||{};if(!cls)return alert('Pilih kelas.');const days=Array.from({length:daysMonthV455(+mi)},(_,i)=>i+1),rows=stud.map((s,i)=>{let r=data[s.id]||{},sum=attendanceSummaryV35(r);return `<tr><td>${i+1}</td><td class="nm">${esc(s.name)}</td>${days.map(d=>`<td>${esc(r[d]||'H')}</td>`).join('')}<td>${sum.H}</td><td>${sum.S}</td><td>${sum.I}</td><td>${sum.A}</td></tr>`}).join('');let body=`<h1>DAFTAR HADIR PESERTA DIDIK</h1><h2>BAHASA INGGRIS KELAS IX</h2><div class="meta"><span><b>Sekolah:</b> ${esc(I.school||'')}</span><span><b>Kelas:</b> ${esc(cls.name)}</span><span><b>Bulan:</b> ${esc(ATT_MONTHS_V35[+mi-1])}</span><span><b>Guru:</b> ${esc(I.teacher||'')}</span><span><b>Semester:</b> ${esc(sem)}</span><span><b>TP:</b> ${esc(I.year||'')}</span></div><table><thead><tr><th rowspan="2" class="no">No</th><th rowspan="2" class="nm">Nama Peserta Didik</th><th colspan="${days.length}">Tanggal</th><th colspan="4">Jumlah</th></tr><tr>${days.map(d=>`<th>${d}</th>`).join('')}<th>H</th><th>S</th><th>I</th><th>A</th></tr></thead><tbody>${rows}</tbody></table><div class="foot"><b>H=Hadir • S=Sakit • I=Izin • A=Alpa</b></div>`;let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up.');w.document.write(`<html><head><style>@page{size:210mm 330mm;margin:6mm}*{box-sizing:border-box}body{font-family:Arial;font-size:7pt;margin:0}h1,h2{text-align:center;margin:0}h1{font-size:13pt}h2{font-size:9pt;margin-bottom:3mm}.meta{display:grid;grid-template-columns:1.3fr .8fr 1fr;gap:1.5mm 5mm;margin-bottom:3mm}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:.6px solid #222;text-align:center;padding:1px;height:15px}.no{width:5mm}.nm{width:43mm;text-align:left;padding-left:1.5mm;white-space:nowrap;overflow:hidden}.foot{margin-top:2mm}</style></head><body>${body}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()}
+function printSemesterV455(){const cid=document.getElementById('attendanceClassV35')?.value,sem=document.getElementById('attendanceSemV455')?.value||'1',cls=(state.classes||[]).find(c=>c.id===cid),rows=semesterRowsV455(cid,sem),I=state.identity||{};let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up.');let tr=rows.map((x,i)=>`<tr><td>${i+1}</td><td style="text-align:left">${esc(x.s.name)}</td><td>${x.H}</td><td>${x.S}</td><td>${x.I}</td><td>${x.A}</td><td>${x.total}</td></tr>`).join('');w.document.write(`<html><head><style>@page{size:210mm 330mm;margin:12mm}body{font-family:Arial;font-size:10pt}h1,h2{text-align:center;margin:3px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #222;padding:5px;text-align:center}
 /* ===== V4.9.10 RESPONSIVE STABILITY PATCH ===== */
 html,body{max-width:100%;overflow-x:hidden}
 *{box-sizing:border-box}
@@ -7632,7 +7647,7 @@ document.addEventListener("DOMContentLoaded",()=>{
  #v4939PrintTemplate h3{text-align:center;font-size:11pt;margin:12px 0 6px}
  .v4939-print-table{width:100%;border-collapse:collapse;font-size:8.5pt}.v4939-print-table th,.v4939-print-table td{border:1px solid #000;padding:4px;text-align:center}.v4939-print-table th{font-weight:700}
  .v4939-sign{display:grid;grid-template-columns:1fr 1fr;gap:70px;margin-top:24px;font-size:9pt;text-align:center}
- @page{size:A4 landscape;margin:10mm}
+ @page{size:210mm 330mm;margin:10mm}
 }
 </style>
 <script id="v4939-pdf-dual-reader">
@@ -8252,7 +8267,7 @@ document.addEventListener("DOMContentLoaded",()=>setTimeout(setup,500));
    width:100%!important;background:#fff!important
  }
  #v4957PrintRoot .v4957-sheet{box-shadow:none!important;min-width:0!important;max-width:none!important;padding:8mm!important}
- @page{size:A4 landscape;margin:8mm}
+ @page{size:210mm 330mm;margin:8mm}
 }
 </style>
 
@@ -8953,7 +8968,7 @@ window.addEventListener("beforeprint",setPrintMode);
 /* ---------- FINAL PRINT STANDARD: ALL A4 PORTRAIT ---------- */
 @media print{
   @page{
-    size:A4 portrait!important;
+    size:210mm 330mm!important;
     margin:15mm!important;
   }
   html,body{
@@ -9061,7 +9076,7 @@ window.addEventListener("beforeprint",setPrintMode);
 
 /* Explicitly neutralize old landscape-specific page rule */
 @media print and (orientation:landscape){
-  @page{size:A4 portrait!important;margin:15mm!important}
+  @page{size:210mm 330mm!important;margin:15mm!important}
 }
 </style>
 
@@ -9584,7 +9599,7 @@ function fillAdminV4965(doc,c){
 }
 function fitBookPrintV4912(doc,type){
  const st=doc.createElement('style');st.id='eduguru-book-fit-v4912';st.textContent=`
- @page{size:A4 portrait;margin:12mm 12mm 13mm 14mm}
+ @page{size:210mm 330mm;margin:12mm 12mm 13mm 14mm}
  html,body{width:auto!important;max-width:none!important;margin:0!important;padding:0!important;font-size:10.2pt!important;line-height:1.28!important}
  body{overflow:visible!important}
  .page,.sheet,.book-page,[class*="page"]{box-sizing:border-box!important;max-width:100%!important}
@@ -9614,7 +9629,7 @@ function fitBookPrintV4912(doc,type){
     @page margin 0 mencegah background bergeser/mengecil saat dicetak. */
  if(type==='administrasi'){
    const a=doc.createElement('style');a.id='eduguru-admin-a4-fit-v4913';a.textContent=`
-   @page{size:A4 portrait;margin:0!important}
+   @page{size:210mm 330mm;margin:0!important}
    html,body{margin:0!important;padding:0!important;width:210mm!important;background:#e6e9ed!important}
    .book{gap:14px!important;padding:14px 0 40px!important}
    .page{
@@ -9674,7 +9689,7 @@ function fitBookPrintV4912(doc,type){
 }
 function fitUnifiedContentPagesV4914(doc,type){
  const st=doc.createElement('style');st.id='eduguru-unified-a4-v4914';st.textContent=`
- @page{size:A4 portrait;margin:0!important}
+ @page{size:210mm 330mm;margin:0!important}
  html,body{margin:0!important;padding:0!important;width:210mm!important;max-width:210mm!important}
  .book{box-sizing:border-box!important}
  .page.content-page{
@@ -9771,7 +9786,7 @@ function expandAdminAllClassesV4966(doc,c){
 }
 function addBookRuntimeV4966(doc,type,c){
  const st=doc.createElement('style');st.id='eduguru-v4966-print-layout';st.textContent=`
- @page{size:A4 portrait;margin:0!important}
+ @page{size:210mm 330mm;margin:0!important}
  html,body{width:210mm!important;margin:0!important;padding:0!important}
  .book{margin:0!important;padding:0!important;gap:0!important}
  .page{width:210mm!important;min-width:210mm!important;max-width:210mm!important;box-sizing:border-box!important;break-after:page!important;page-break-after:always!important}
@@ -10239,7 +10254,7 @@ document.addEventListener("DOMContentLoaded",function(){
    const I=state.identity||{};
    const pages=rows.map(x=>`<section class="page"><h1>MODUL AJAR / RPP</h1><h2>${esc(x.chapterName)} — Pertemuan ${x.meeting}</h2><p><b>Kelas:</b> ${esc(className)} &nbsp; • &nbsp; <b>Alokasi:</b> ${x.jp||3} JP</p><table><tr><th>Komponen</th><th>Isi</th></tr><tr><td>Tujuan Pembelajaran</td><td>${esc(x.tujuan||'—')}</td></tr><tr><td>Materi</td><td>${esc(x.materi||'—')}</td></tr><tr><td>LKPD / Task</td><td>${esc(x.lkpd||'—')}</td></tr><tr><td>Assessment</td><td>${esc(x.assessment||'—')}</td></tr><tr><td>Remedial</td><td>${esc(x.remedial||'—')}</td></tr><tr><td>Pengayaan</td><td>${esc(x.enrichment||'—')}</td></tr></table></section>`).join('');
    const w=window.open('','_blank');if(!w)return alert('Izinkan pop-up untuk Preview/Cetak.');
-   w.document.write(`<html><head><title>Modul Ajar RPP — ${esc(className)}</title><style>@page{size:A4 portrait;margin:15mm}body{font-family:"Times New Roman",serif;font-size:10.5pt;margin:0}.page{page-break-after:always;min-height:267mm}h1,h2{text-align:center}h1{font-size:14pt}h2{font-size:12pt}table{width:100%;border-collapse:collapse}th,td{border:1px solid #000;padding:5px;vertical-align:top}th{background:#e6edf7}td:first-child{width:27%;font-weight:bold}@media print{.page:last-child{page-break-after:auto}}</style></head><body>${pages}</body></html>`);
+   w.document.write(`<html><head><title>Modul Ajar RPP — ${esc(className)}</title><style>@page{size:210mm 330mm;margin:15mm}body{font-family:"Times New Roman",serif;font-size:10.5pt;margin:0}.page{page-break-after:always;min-height:267mm}h1,h2{text-align:center}h1{font-size:14pt}h2{font-size:12pt}table{width:100%;border-collapse:collapse}th,td{border:1px solid #000;padding:5px;vertical-align:top}th{background:#e6edf7}td:first-child{width:27%;font-weight:bold}@media print{.page:last-child{page-break-after:auto}}</style></head><body>${pages}</body></html>`);
    w.document.close();
  };
  document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{try{renderModulesV33()}catch(e){}},5200));
@@ -10353,7 +10368,7 @@ document.addEventListener("DOMContentLoaded",function(){
      pages+=`<section class="pg"><h1>DAFTAR HADIR PESERTA DIDIK — SEMESTER ${se}</h1><h2>${esc(I.school||'')} • ${esc(cls?.name||'')} • ${esc(I.year||'')}</h2><table><thead><tr><th>No</th><th class="nm">Nama</th>${meets.map(m=>`<th>P${m}</th>`).join('')}<th>H</th><th>S</th><th>I</th><th>A</th></tr></thead><tbody>${rows}</tbody></table></section>`;
    })});
    const w=window.open('','_blank');if(!w)return alert('Izinkan pop-up.');
-   w.document.write(`<html><head><title>Presensi Semester</title><style>@page{size:A4 landscape;margin:6mm}body{font-family:Arial;font-size:6.5pt;margin:0}.pg{page-break-after:always}h1,h2{text-align:center;margin:2px}h1{font-size:12pt}h2{font-size:8pt}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:.6px solid #222;padding:1px;text-align:center}.nm{width:42mm;text-align:left}.pg:last-child{page-break-after:auto}</style></head><body>${pages}</body></html>`);w.document.close();
+   w.document.write(`<html><head><title>Presensi Semester</title><style>@page{size:210mm 330mm;margin:6mm}body{font-family:Arial;font-size:6.5pt;margin:0}.pg{page-break-after:always}h1,h2{text-align:center;margin:2px}h1{font-size:12pt}h2{font-size:8pt}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:.6px solid #222;padding:1px;text-align:center}.nm{width:42mm;text-align:left}.pg:last-child{page-break-after:auto}</style></head><body>${pages}</body></html>`);w.document.close();
  };
 
  // Existing renderers often repopulate dropdowns; restore global scope options after navigation/render.
@@ -10473,7 +10488,7 @@ document.addEventListener("DOMContentLoaded",function(){
      pages+=`<section class="pg" style="--fs:${fs}pt"><h1>DAFTAR HADIR PESERTA DIDIK</h1><div class="meta">${esc(I.school||'')} • ${esc(cls?.name||'')} • Semester ${sem} • ${esc(I.year||'')}</div><table><tr><th>No</th><th class="nm">Nama</th>${meets.map(m=>`<th>P${m}</th>`).join('')}<th>S</th><th>I</th><th>A</th><th>%</th></tr>${rows}</table></section>`;
    })});
    let w=window.open('','_blank');if(!w)return alert('Izinkan pop-up browser.');
-   w.document.write(`<html><head><title>Presensi Semester</title><style>@page{size:A4 portrait;margin:5mm}*{box-sizing:border-box}body{font-family:Arial;margin:0;background:#eee}.bar{text-align:center;padding:7px;background:#fff}.pg{width:200mm;height:287mm;margin:5px auto;background:#fff;overflow:hidden;page-break-after:always;font-size:var(--fs)}h1{text-align:center;font-size:9pt;margin:1mm}.meta{text-align:center;font-size:5.5pt;margin-bottom:1mm}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:.4px solid #111;padding:.3px;text-align:center;line-height:1}.nm{width:38mm;text-align:left;white-space:nowrap;overflow:hidden}th{font-size:4.5pt}@media print{body{background:#fff}.bar{display:none}.pg{margin:0}.pg:last-child{page-break-after:auto}}</style></head><body><div class="bar"><button onclick="window.print()">🖨 CETAK</button></div>${pages}</body></html>`);w.document.close();
+   w.document.write(`<html><head><title>Presensi Semester</title><style>@page{size:210mm 330mm;margin:5mm}*{box-sizing:border-box}body{font-family:Arial;margin:0;background:#eee}.bar{text-align:center;padding:7px;background:#fff}.pg{width:200mm;height:287mm;margin:5px auto;background:#fff;overflow:hidden;page-break-after:always;font-size:var(--fs)}h1{text-align:center;font-size:9pt;margin:1mm}.meta{text-align:center;font-size:5.5pt;margin-bottom:1mm}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:.4px solid #111;padding:.3px;text-align:center;line-height:1}.nm{width:38mm;text-align:left;white-space:nowrap;overflow:hidden}th{font-size:4.5pt}@media print{body{background:#fff}.bar{display:none}.pg{margin:0}.pg:last-child{page-break-after:auto}}</style></head><body><div class="bar"><button onclick="window.print()">🖨 CETAK</button></div>${pages}</body></html>`);w.document.close();
  };
  window.printSemesterV455=window.previewAttendanceV455;
 
@@ -11169,7 +11184,7 @@ function print(){
    pages+='<section class="pg"><h1>DAFTAR HADIR PESERTA DIDIK</h1><div class="meta">'+escx(I.school||"")+' • '+escx(cls?.name||"")+' • Semester '+sem+' • '+escx(I.year||"")+'</div><table><thead><tr><th>No</th><th class="nm">Nama</th>'+meets.map(n=>'<th>P'+n+'</th>').join("")+'<th>H</th><th>S</th><th>I</th><th>A</th><th>%</th></tr></thead><tbody>'+rows+'</tbody></table></section>';
  })});
  const w=window.open("","_blank");if(!w)return alert("Izinkan pop-up browser.");
- w.document.write('<html><head><title>Presensi Semester</title><style>@page{size:A4 landscape;margin:5mm}*{box-sizing:border-box}body{font-family:Arial;margin:0}.pg{width:287mm;min-height:200mm;page-break-after:always}h1{text-align:center;font-size:12pt;margin:1mm}.meta{text-align:center;font-size:7pt;margin-bottom:2mm}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:6pt}th,td{border:.5px solid #222;padding:1px;text-align:center}.nm{width:42mm;text-align:left;white-space:nowrap;overflow:hidden}.pg:last-child{page-break-after:auto}</style></head><body>'+pages+'</body></html>');w.document.close()
+ w.document.write('<html><head><title>Presensi Semester</title><style>@page{size:210mm 330mm;margin:5mm}*{box-sizing:border-box}body{font-family:Arial;margin:0}.pg{width:287mm;min-height:200mm;page-break-after:always}h1{text-align:center;font-size:12pt;margin:1mm}.meta{text-align:center;font-size:7pt;margin-bottom:2mm}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:6pt}th,td{border:.5px solid #222;padding:1px;text-align:center}.nm{width:42mm;text-align:left;white-space:nowrap;overflow:hidden}.pg:last-child{page-break-after:auto}</style></head><body>'+pages+'</body></html>');w.document.close()
 }
 document.addEventListener("click",function(e){
  const td=e.target.closest?.("#attendanceSheetV35 td.status[data-cid]");
@@ -11194,7 +11209,7 @@ document.addEventListener("DOMContentLoaded",()=>setTimeout(()=>{render();render
 function addFinalBookStyle(doc,type){
  const st=doc.createElement("style");st.id="eduguru-v4967-book-final-style";
  st.textContent=`
- @page{size:A4 portrait;margin:0!important}
+ @page{size:210mm 330mm;margin:0!important}
  html,body{margin:0!important;padding:0!important;width:210mm!important;max-width:210mm!important;background:#fff!important}
  .book{display:block!important;margin:0!important;padding:0!important;gap:0!important}
  .page{
@@ -11275,7 +11290,7 @@ if(oldBuild){
    fixWrap.innerHTML=`
 <style id="eduguru-v4968-integrated-print-final">
 /* V4.9.68 - authoritative final print layer. Equal/higher specificity than template legacy rules. */
-@page{size:A4 portrait;margin:0!important}
+@page{size:210mm 330mm;margin:0!important}
 html,body{margin:0!important;padding:0!important;width:210mm!important;max-width:210mm!important;background:#fff!important}
 .book{display:block!important;margin:0!important;padding:0!important;gap:0!important}
 
@@ -11633,7 +11648,7 @@ function preview(){
    pages+='<section class="pg"><h1>DAFTAR HADIR PESERTA DIDIK</h1><div class="meta">'+escx(I.school||"")+' • '+escx(c?.name||"")+' • Semester '+sem+' • '+escx(I.year||"")+'</div><table><thead><tr><th>No</th><th class="nm">Nama</th>'+ms.map(n=>'<th>P'+n+'</th>').join("")+'<th>H</th><th>S</th><th>I</th><th>A</th><th>%</th></tr></thead><tbody>'+rows+'</tbody></table></section>'
  })});
  const w=window.open("","_blank");if(!w)return alert("Izinkan pop-up browser.");
- w.document.write('<html><head><title>Presensi Semester</title><style>@page{size:A4 landscape;margin:5mm}body{font-family:Arial;margin:0}.pg{page-break-after:always}h1{text-align:center;font-size:12pt}.meta{text-align:center;font-size:7pt;margin-bottom:2mm}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:6pt}th,td{border:.5px solid #222;padding:1px;text-align:center}.nm{width:42mm;text-align:left}.pg:last-child{page-break-after:auto}</style></head><body>'+pages+'</body></html>');w.document.close()
+ w.document.write('<html><head><title>Presensi Semester</title><style>@page{size:210mm 330mm;margin:5mm}body{font-family:Arial;margin:0}.pg{page-break-after:always}h1{text-align:center;font-size:12pt}.meta{text-align:center;font-size:7pt;margin-bottom:2mm}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:6pt}th,td{border:.5px solid #222;padding:1px;text-align:center}.nm{width:42mm;text-align:left}.pg:last-child{page-break-after:auto}</style></head><body>'+pages+'</body></html>');w.document.close()
 }
 document.addEventListener("click",e=>{
  const td=e.target.closest?.("#attendanceSheetV35 td.att[data-cid]");
@@ -12318,7 +12333,7 @@ function printAttendance(){
    pages+=`<section class="pg"><h1>DAFTAR HADIR PESERTA DIDIK</h1><div class="meta">${escx(I.school||"")} • ${escx(c?.name||"")} • Semester ${sem} • ${escx(I.year||"")}</div><table><thead><tr><th>No</th><th class="nm">Nama</th>${ms.map(n=>`<th>P${n}</th>`).join("")}<th>H</th><th>S</th><th>I</th><th>A</th><th>%</th></tr></thead><tbody>${rows}</tbody></table></section>`
  })});
  const w=window.open("","_blank");if(!w)return alert("Izinkan pop-up browser.");
- w.document.write(`<html><head><title>Presensi Semester</title><style>@page{size:A4 landscape;margin:5mm}body{font-family:Arial;margin:0}.pg{page-break-after:always}h1{text-align:center;font-size:12pt}.meta{text-align:center;font-size:7pt;margin-bottom:2mm}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:6pt}th,td{border:.5px solid #222;padding:1px;text-align:center}.nm{width:42mm;text-align:left}.pg:last-child{page-break-after:auto}</style></head><body>${pages}</body></html>`);w.document.close()
+ w.document.write(`<html><head><title>Presensi Semester</title><style>@page{size:210mm 330mm;margin:5mm}body{font-family:Arial;margin:0}.pg{page-break-after:always}h1{text-align:center;font-size:12pt}.meta{text-align:center;font-size:7pt;margin-bottom:2mm}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:6pt}th,td{border:.5px solid #222;padding:1px;text-align:center}.nm{width:42mm;text-align:left}.pg:last-child{page-break-after:auto}</style></head><body>${pages}</body></html>`);w.document.close()
 }
 
 /* =========================================================
@@ -12383,7 +12398,7 @@ function printGrades(){
  const I=state.identity||{},cids=selectedList(E("gradeClassV36"),classes().map(c=>c.id)),sems=selectedList(E("gradeSemV36"),["1","2"]);let pages="";
  cids.forEach(cid=>{const c=classes().find(x=>x.id===cid);sems.forEach(sem=>{const rows=gradeRows(cid,sem);pages+=`<section class="pg"><h1>DAFTAR NILAI PESERTA DIDIK</h1><div class="meta">${escx(I.school||"")} • ${escx(c?.name||"")} • Semester ${sem} • ${escx(I.year||"")}</div><table><thead><tr><th>No</th><th class="nm">Nama</th><th>L/P</th>${chapters().map((c,i)=>`<th>TP${i+1}</th>`).join("")}<th>Rata</th><th>PTS</th><th>PAS/PAT</th><th>Raport</th><th>Deskripsi</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${x.i}</td><td class="nm">${escx(x.st.name)}</td><td>${escx(x.st.gender||x.st.sex||"")}</td>${x.vals.map(v=>`<td>${v??""}</td>`).join("")}<td>${x.avg??""}</td><td>${x.sm.pts??""}</td><td>${x.sm.paspat??""}</td><td>${x.raport??""}</td><td>${escx(x.sm.description||"")}</td></tr>`).join("")}</tbody></table></section>`})});
  const w=window.open("","_blank");if(!w)return alert("Izinkan pop-up browser.");
- w.document.write(`<html><head><title>Daftar Nilai</title><style>@page{size:A4 landscape;margin:6mm}body{font-family:Arial;margin:0}.pg{page-break-after:always}h1{text-align:center;font-size:12pt}.meta{text-align:center;font-size:7pt;margin-bottom:2mm}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:6.3pt}th,td{border:.5px solid #222;padding:1.4px;text-align:center}.nm{width:42mm;text-align:left}.pg:last-child{page-break-after:auto}</style></head><body>${pages}</body></html>`);w.document.close()
+ w.document.write(`<html><head><title>Daftar Nilai</title><style>@page{size:210mm 330mm;margin:6mm}body{font-family:Arial;margin:0}.pg{page-break-after:always}h1{text-align:center;font-size:12pt}.meta{text-align:center;font-size:7pt;margin-bottom:2mm}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:6.3pt}th,td{border:.5px solid #222;padding:1.4px;text-align:center}.nm{width:42mm;text-align:left}.pg:last-child{page-break-after:auto}</style></head><body>${pages}</body></html>`);w.document.close()
 }
 
 /* Separate Analysis page remains component-based; only normalize widths. */
@@ -12640,7 +12655,7 @@ function printGrades(){
    });
  });
  const w=window.open("","_blank");if(!w)return alert("Izinkan pop-up browser.");
- w.document.write(`<html><head><title>Rekap Nilai</title><style>@page{size:A4 landscape;margin:7mm}body{font-family:Arial;margin:0}.pg{page-break-after:always}h1{text-align:center;font-size:13pt}.meta{text-align:center;font-size:8pt;margin-bottom:3mm}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:8pt}th,td{border:.6px solid #222;padding:3px;text-align:center}.nm{width:48mm;text-align:left}.pg:last-child{page-break-after:auto}</style></head><body>${pages}</body></html>`);
+ w.document.write(`<html><head><title>Rekap Nilai</title><style>@page{size:210mm 330mm;margin:7mm}body{font-family:Arial;margin:0}.pg{page-break-after:always}h1{text-align:center;font-size:13pt}.meta{text-align:center;font-size:8pt;margin-bottom:3mm}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:8pt}th,td{border:.6px solid #222;padding:3px;text-align:center}.nm{width:48mm;text-align:left}.pg:last-child{page-break-after:auto}</style></head><body>${pages}</body></html>`);
  w.document.close();
 }
 
@@ -12825,7 +12840,7 @@ function printAnalysis(){
  <h3>B. Program Remedial</h3><table><tr><th>No</th><th>Nama</th><th>NA</th><th>TP Sasaran</th><th>Program</th><th>Hasil</th><th>Status Akhir</th></tr>${frows(rem,"remedial")||'<tr><td colspan="7">Tidak ada siswa remedial.</td></tr>'}</table>
  <h3>C. Program Pengayaan</h3><table><tr><th>No</th><th>Nama</th><th>NA</th><th>TP</th><th>Program</th><th>Hasil</th><th>Status Akhir</th></tr>${frows(en,"pengayaan")||'<tr><td colspan="7">Tidak ada siswa pengayaan.</td></tr>'}</table>`;
  const w=window.open("","_blank");if(!w)return alert("Izinkan pop-up browser.");
- w.document.write(`<html><head><title>Analisis & Tindak Lanjut KKTP</title><style>@page{size:A4 landscape;margin:8mm}body{font-family:Arial;font-size:8pt;line-height:1.25;margin:0}h1,h2{text-align:center;margin:2px}h1{font-size:14pt}h2{font-size:10pt}h3{font-size:10pt;margin:10px 0 4px}table{width:100%;border-collapse:collapse;margin:5px 0 10px}th,td{border:.6px solid #222;padding:3px;vertical-align:top}th{background:#eee}.identity td:nth-child(odd){font-weight:bold}</style></head><body>${body}</body></html>`);
+ w.document.write(`<html><head><title>Analisis & Tindak Lanjut KKTP</title><style>@page{size:210mm 330mm;margin:8mm}body{font-family:Arial;font-size:8pt;line-height:1.25;margin:0}h1,h2{text-align:center;margin:2px}h1{font-size:14pt}h2{font-size:10pt}h3{font-size:10pt;margin:10px 0 4px}table{width:100%;border-collapse:collapse;margin:5px 0 10px}th,td{border:.6px solid #222;padding:3px;vertical-align:top}th{background:#eee}.identity td:nth-child(odd){font-weight:bold}</style></head><body>${body}</body></html>`);
  w.document.close()
 }
 
@@ -16468,8 +16483,8 @@ function injectBookRepair(doc,type,c){
   const st=doc.createElement("style");
   st.id="eduguru-v4992-book-print";
   st.textContent=`
-    @page{size:A4 portrait;margin:18mm 16mm 18mm 22mm}
-    @page eduguru-matrix{size:A4 landscape;margin:10mm 9mm 11mm 10mm}
+    @page{size:210mm 330mm;margin:18mm 16mm 18mm 22mm}
+    @page eduguru-matrix{size:210mm 330mm;margin:10mm 9mm 11mm 10mm}
     @media print{
       html,body{width:auto!important;max-width:none!important;margin:0!important;padding:0!important;background:#fff!important;color:#111!important}
       body{font-family:"Times New Roman",Georgia,serif!important;font-size:11pt!important;line-height:1.28!important;overflow:visible!important}
@@ -16599,7 +16614,7 @@ async function printPackageV4992(ids){
   const body=parts.map((x,i)=>`<section class="eduguru-pack-doc" data-doc="${esc(x.id)}"><div class="eduguru-pack-label">${i+1}. ${esc(x.title)}</div>${x.body}</section>`).join("");
   w.document.open();
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Paket Cetak EDUGURU V4.9.99</title><style>${sourceStyles}</style><style>
-    @page{size:A4 portrait;margin:18mm 16mm 18mm 22mm}html,body{margin:0;padding:0;background:#fff;color:#111;font-family:"Times New Roman",Georgia,serif}
+    @page{size:210mm 330mm;margin:18mm 16mm 18mm 22mm}html,body{margin:0;padding:0;background:#fff;color:#111;font-family:"Times New Roman",Georgia,serif}
     .eduguru-pack-doc{break-before:page;page-break-before:always}.eduguru-pack-doc:first-child{break-before:auto;page-break-before:auto}
     .eduguru-pack-label{font:700 8pt Arial,sans-serif;color:#667085;margin:0 0 4mm;border-bottom:.4pt solid #ccd5df;padding-bottom:2mm}
     table{max-width:100%;border-collapse:collapse}thead{display:table-header-group}tr{break-inside:avoid;page-break-inside:avoid}
@@ -16709,7 +16724,7 @@ function normalizeCaptured(html,id){
 
 function portraitCss(){
   return `
-    @page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+    @page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
 
     html,body{
       margin:0!important;padding:0!important;background:#e9edf2!important;
@@ -16788,7 +16803,7 @@ function portraitCss(){
     }
 
     @media print{
-      @page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+      @page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
       html,body{background:#fff!important;width:auto!important}
       .eduguru-a4-sheet-v4993{
         width:auto!important;min-height:0!important;height:auto!important;
@@ -16888,7 +16903,7 @@ try{printSelectedDocsV39=window.printSelectedDocsV39}catch(e){}
 function responsiveBookCss(){
   return `
     <style id="eduguru-v4993-book-responsive">
-      @page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+      @page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
 
       @media screen{
         html,body{margin:0!important;padding:0!important;background:#e9edf2!important;overflow:auto!important}
@@ -16919,7 +16934,7 @@ function responsiveBookCss(){
       }
 
       @media print{
-        @page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+        @page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
         html,body{width:auto!important;max-width:none!important;margin:0!important;padding:0!important;background:#fff!important;overflow:visible!important}
         .book{display:block!important;margin:0!important;padding:0!important;gap:0!important}
         .book .page{
@@ -17246,7 +17261,7 @@ function jobFor(id){
 
 function portraitCss(){
   return `
-    @page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+    @page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
     html,body{margin:0!important;padding:0!important;background:#e9edf2!important;color:#111!important;font-family:"Times New Roman",Georgia,serif!important}
     .print-toolbar-v4994{
       position:sticky;top:0;z-index:9999;display:flex;gap:7px;align-items:center;
@@ -17278,7 +17293,7 @@ function portraitCss(){
       .a4-v4994{width:calc(100vw - 16px);min-height:0;margin:8px auto 18px;padding:18px 14px}
     }
     @media print{
-      @page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+      @page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
       html,body{background:#fff!important}
       .print-toolbar-v4994{display:none!important}
       .a4-v4994{width:auto!important;min-height:0!important;height:auto!important;margin:0!important;padding:0!important;box-shadow:none!important}
@@ -17534,7 +17549,7 @@ function printAllocationV4995(){
   const w=window.open("","_blank");if(!w)return alert("Izinkan pop-up untuk mencetak.");
   w.document.open();
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Alokasi Waktu, Kalender & Jadwal</title>
-  <style>@page{size:A4 portrait;margin:15mm 15mm 17mm 18mm}
+  <style>@page{size:210mm 330mm;margin:15mm 15mm 17mm 18mm}
   body{font-family:Arial,sans-serif;font-size:10pt;line-height:1.3;margin:0;color:#111}
   h1,h2{text-align:center}h1{font-size:16pt}h2{font-size:12pt;margin:10px 0 6px}h3{font-size:11pt}
   table{width:100%;border-collapse:collapse;margin:6px 0 12px}
@@ -17600,7 +17615,7 @@ function jobFor(id){
 
 function finalCss(){
 return `
-@page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+@page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
 html,body{margin:0!important;padding:0!important;background:#e9edf2!important;color:#111!important;font-family:Arial,sans-serif!important}
 body,*{font-family:Arial,sans-serif!important}
 .v4995-toolbar{position:sticky;top:0;z-index:9999;display:flex;gap:7px;align-items:center;padding:8px 10px;background:#173f69;color:#fff;font:600 12px Arial,sans-serif}
@@ -17637,7 +17652,7 @@ body,*{font-family:Arial,sans-serif!important}
 
 @media(max-width:850px){.a4-v4995{width:calc(100vw - 16px)!important;min-height:0!important;margin:8px auto 18px!important;padding:18px 14px!important}}
 @media print{
-  @page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+  @page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
   html,body{background:#fff!important}.v4995-toolbar{display:none!important}
   .a4-v4995{width:auto!important;min-height:0!important;height:auto!important;margin:0!important;padding:0!important;box-shadow:none!important}
   button,.toolbar,.no-print{display:none!important}
@@ -17690,7 +17705,7 @@ try{printSelectedDocsV39=window.printSelectedDocsV39}catch(e){}
    ---------------------------------------------------------- */
 function bookCss(){
 return `<style id="eduguru-v4995-book-final">
-@page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+@page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
 html,body,.book,.page,.page-inner,table,th,td,p,li,h1,h2,h3{font-family:Arial,sans-serif!important}
 @media screen{
  html,body{background:#e9edf2!important;overflow:auto!important}
@@ -17699,7 +17714,7 @@ html,body,.book,.page,.page-inner,table,th,td,p,li,h1,h2,h3{font-family:Arial,sa
  .book .page-inner{height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important}
 }
 @media print{
- @page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+ @page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
  html,body{background:#fff!important;overflow:visible!important}
  .toolbar,.meta{display:none!important}.book{display:block!important;margin:0!important;padding:0!important}
  .book .page{width:auto!important;min-width:0!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;overflow:visible!important;box-shadow:none!important;break-after:page!important;page-break-after:always!important}
@@ -17932,7 +17947,7 @@ function jobFor(id){
    ============================================================ */
 function finalCss(){
 return `
-@page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+@page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
 html,body{margin:0!important;padding:0!important;background:#e9edf2!important;color:#111!important;font-family:Arial,sans-serif!important}
 body,*{font-family:Arial,sans-serif!important}
 .v4996-toolbar{position:sticky;top:0;z-index:9999;display:flex;gap:8px;align-items:center;padding:8px 10px;background:#173f69;color:#fff;font:600 12px Arial,sans-serif}
@@ -18092,7 +18107,7 @@ body,*{font-family:Arial,sans-serif!important}
  .a4-v4996{width:calc(100vw - 16px)!important;min-height:0!important;margin:8px auto 18px!important;padding:18px 14px!important}
 }
 @media print{
- @page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+ @page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
  html,body{background:#fff!important}.v4996-toolbar{display:none!important}
  .a4-v4996{width:auto!important;min-height:0!important;height:auto!important;margin:0!important;padding:0!important;box-shadow:none!important}
  button,.toolbar,.no-print{display:none!important}
@@ -18156,7 +18171,7 @@ try{printSelectedDocsV39=window.printSelectedDocsV39}catch(e){}
    ============================================================ */
 function bookCss(){
 return `<style id="eduguru-v4996-book-final">
-@page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+@page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
 html,body,.book,.page,.page-inner,table,th,td,p,li,h1,h2,h3{font-family:Arial,sans-serif!important}
 @media screen{
  html,body{background:#e9edf2!important;overflow:auto!important}
@@ -18165,7 +18180,7 @@ html,body,.book,.page,.page-inner,table,th,td,p,li,h1,h2,h3{font-family:Arial,sa
  .book .page-inner{height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important}
 }
 @media print{
- @page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+ @page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
  html,body{background:#fff!important;overflow:visible!important}
  .toolbar,.meta{display:none!important}.book{display:block!important;margin:0!important;padding:0!important}
  .book .page{width:auto!important;min-width:0!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;overflow:visible!important;box-shadow:none!important;break-after:page!important;page-break-after:always!important}
@@ -18411,7 +18426,7 @@ function jobFor(id){
    ============================================================ */
 function finalCss(){
 return `
-@page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+@page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
 html,body{margin:0!important;padding:0!important;background:#e9edf2!important;color:#111!important;font-family:Arial,sans-serif!important}
 body,*{font-family:Arial,sans-serif!important}
 
@@ -18588,7 +18603,7 @@ body,*{font-family:Arial,sans-serif!important}
  .a4-v4997{width:calc(100vw - 16px)!important;min-height:0!important;margin:8px auto 18px!important;padding:18px 14px!important}
 }
 @media print{
- @page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+ @page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
  html,body{background:#fff!important}
  .toolbar-v4997{display:none!important}
  .a4-v4997{width:auto!important;min-height:0!important;height:auto!important;margin:0!important;padding:0!important;box-shadow:none!important}
@@ -18686,7 +18701,7 @@ function mergeSemesterBooks(type,build){
 
 function bookCss(){
 return `<style id="eduguru-v4997-book-final">
-@page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+@page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
 html,body,.book,.page,.page-inner,table,th,td,p,li,h1,h2,h3{font-family:Arial,sans-serif!important}
 @media screen{
  html,body{background:#e9edf2!important;overflow:auto!important}
@@ -18695,7 +18710,7 @@ html,body,.book,.page,.page-inner,table,th,td,p,li,h1,h2,h3{font-family:Arial,sa
  .book .page-inner{height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important}
 }
 @media print{
- @page{size:A4 portrait!important;margin:15mm 15mm 17mm 18mm!important}
+ @page{size:210mm 330mm!important;margin:15mm 15mm 17mm 18mm!important}
  html,body{background:#fff!important;overflow:visible!important}
  .toolbar,.meta{display:none!important}.book{display:block!important;margin:0!important;padding:0!important}
  .book .page{width:auto!important;min-width:0!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;overflow:visible!important;box-shadow:none!important;break-after:page!important;page-break-after:always!important}
@@ -18800,7 +18815,7 @@ function selected(){let v=window.EDUGURU_PRINT_V4994?.selection?.();return Array
 function renderer(id){let ch=+String(E('pcChapterV39')?.value||'ch1').replace('ch','')||1;return ({cover:()=>previewCoverV38(),curriculum:()=>printCurriculumV39(),allocation:()=>window.printAllocationV421(),planning:()=>previewPlanningV32(),module:()=>typeof printModul43==='function'?printModul43(ch):previewModuleV33(),journal:()=>typeof printJurnal43==='function'?printJurnal43():previewJournalV34(),attendance:()=>typeof previewAttendanceV455==='function'?previewAttendanceV455():previewAttendanceV35(),grades:()=>previewGradesV36(),analysis:()=>previewAnalysisV37()})[id]}
 async function capture(fn){let f=document.createElement('iframe');f.style.cssText='position:fixed;left:-12000px;top:-12000px;width:1100px;height:1700px;border:0;opacity:0;pointer-events:none';document.body.appendChild(f);let w=f.contentWindow,d=f.contentDocument,old=window.open;try{w.print=()=>{};w.focus=()=>{};w.close=()=>{};window.open=()=>w;d.open();d.write('<!doctype html><html><body></body></html>');d.close();let r=fn();if(r&&typeof r.then==='function')await r;await new Promise(x=>setTimeout(x,100));[...d.querySelectorAll('script')].forEach(x=>x.remove());return '<!doctype html>\n'+d.documentElement.outerHTML}finally{window.open=old;f.remove()}}
 function key(p){return [p,E('pcClassV39')?.value||E('bookClassV4965')?.value||'all',E('pcSemV39')?.value||E('bookSemV4965')?.value||'all',E('pcChapterV39')?.value||E('bookChapterV4965')?.value||'all',E('bookMeetingV4966')?.value||'all'].join('|')}
-function css(){return `:root{--pw:210mm;--ph:297mm;--mt:15mm;--mr:15mm;--mb:17mm;--ml:18mm;--fs:11pt}*{box-sizing:border-box}html,body{margin:0;height:100%;font-family:Arial,sans-serif;background:#e7ebf0;color:#1d2733}body{overflow:hidden}.app{height:100%;display:grid;grid-template-rows:auto auto 1fr}.top{display:flex;align-items:center;gap:7px;padding:8px 10px;background:#173f69;color:#fff}.top .ttl{flex:1}.top h1{font-size:14px;margin:0}.top small{font-size:10px;opacity:.86}button,select,input{font:inherit}button{cursor:pointer}.btn{border:1px solid #c7d4df;background:#fff;color:#173f69;border-radius:7px;padding:6px 9px;font-weight:700}.primary{background:#1f6fb2;color:#fff;border-color:#1f6fb2}.good{background:#16835d;color:#fff;border-color:#16835d}.tb{display:flex;gap:5px;flex-wrap:wrap;padding:7px 10px;background:#fff;border-bottom:1px solid #d6dee7}.tb .g{display:flex;gap:4px;padding-right:6px;border-right:1px solid #d9e1e8;align-items:center}.tb button{min-width:30px;height:30px;border:1px solid #d6dee7;background:#fff;border-radius:5px;font-weight:700}.tb select,.tb input{height:30px;border:1px solid #d6dee7;border-radius:5px;padding:0 6px}.main{min-height:0;display:grid;grid-template-columns:225px 1fr 240px}.side{overflow:auto;background:#f7f9fb;border-right:1px solid #d6dee7;padding:10px}.side.r{border-right:0;border-left:1px solid #d6dee7}.side h3{font-size:12px;color:#173f69}.side label{display:block;font-size:10px;font-weight:700;margin:6px 0 3px}.side input,.side select{width:100%;height:31px;border:1px solid #d6dee7;border-radius:6px;padding:0 6px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.status{font-size:10px;padding:7px;border-radius:6px;margin-top:8px;background:#eef3f7}.status.ok{background:#e9f7f1;color:#146b4e}.status.warn{background:#fff4dd;color:#805900}#toc div{display:grid;grid-template-columns:1fr auto;gap:8px;font-size:10px;padding:4px 0;border-bottom:1px dotted #ccd5df}.work{overflow:auto;padding:18px 16px 60px}.page{position:relative;width:var(--pw);height:var(--ph);margin:0 auto 18px;background:#fff;box-shadow:0 4px 22px rgba(15,23,42,.18);overflow:hidden}.content{position:absolute;left:var(--ml);right:var(--mr);top:var(--mt);bottom:var(--mb);overflow:hidden;font-size:var(--fs);line-height:1.35}.pno{position:absolute;bottom:5mm;left:0;right:0;text-align:center;font-size:8pt;color:#667085}.blk{margin:0 0 6pt;break-inside:avoid}.blk:hover{outline:1px dashed #9bb8d5;outline-offset:2px}.body{min-height:1em;outline:none}.body:focus{outline:2px solid rgba(31,111,178,.25)}.body table{width:100%;border-collapse:collapse;table-layout:auto}.body th,.body td{border:1px solid #8e9aa7;padding:4px;vertical-align:top;min-width:8mm}.body th:focus,.body td:focus{outline:2px solid #2f6fbd;outline-offset:-2px}.note{font-size:10px;line-height:1.4;background:#fffbe9;border:1px solid #efe0a8;padding:8px;border-radius:7px}@media(max-width:1000px){.main{grid-template-columns:1fr}.side{display:none}.work{padding:8px}}@media print{@page{size:var(--pw) var(--ph);margin:0}html,body{background:#fff!important;overflow:visible!important;height:auto!important}.top,.tb,.side{display:none!important}.main{display:block!important}.work{overflow:visible!important;padding:0!important}.page{margin:0!important;box-shadow:none!important;break-after:page!important}.page:last-child{break-after:auto!important}}`;}
+function css(){return `:root{--pw:210mm;--ph:330mm;--mt:15mm;--mr:15mm;--mb:17mm;--ml:18mm;--fs:11pt}*{box-sizing:border-box}html,body{margin:0;height:100%;font-family:Arial,sans-serif;background:#e7ebf0;color:#1d2733}body{overflow:hidden}.app{height:100%;display:grid;grid-template-rows:auto auto 1fr}.top{display:flex;align-items:center;gap:7px;padding:8px 10px;background:#173f69;color:#fff}.top .ttl{flex:1}.top h1{font-size:14px;margin:0}.top small{font-size:10px;opacity:.86}button,select,input{font:inherit}button{cursor:pointer}.btn{border:1px solid #c7d4df;background:#fff;color:#173f69;border-radius:7px;padding:6px 9px;font-weight:700}.primary{background:#1f6fb2;color:#fff;border-color:#1f6fb2}.good{background:#16835d;color:#fff;border-color:#16835d}.tb{display:flex;gap:5px;flex-wrap:wrap;padding:7px 10px;background:#fff;border-bottom:1px solid #d6dee7}.tb .g{display:flex;gap:4px;padding-right:6px;border-right:1px solid #d9e1e8;align-items:center}.tb button{min-width:30px;height:30px;border:1px solid #d6dee7;background:#fff;border-radius:5px;font-weight:700}.tb select,.tb input{height:30px;border:1px solid #d6dee7;border-radius:5px;padding:0 6px}.main{min-height:0;display:grid;grid-template-columns:225px 1fr 240px}.side{overflow:auto;background:#f7f9fb;border-right:1px solid #d6dee7;padding:10px}.side.r{border-right:0;border-left:1px solid #d6dee7}.side h3{font-size:12px;color:#173f69}.side label{display:block;font-size:10px;font-weight:700;margin:6px 0 3px}.side input,.side select{width:100%;height:31px;border:1px solid #d6dee7;border-radius:6px;padding:0 6px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.status{font-size:10px;padding:7px;border-radius:6px;margin-top:8px;background:#eef3f7}.status.ok{background:#e9f7f1;color:#146b4e}.status.warn{background:#fff4dd;color:#805900}#toc div{display:grid;grid-template-columns:1fr auto;gap:8px;font-size:10px;padding:4px 0;border-bottom:1px dotted #ccd5df}.work{overflow:auto;padding:18px 16px 60px}.page{position:relative;width:var(--pw);height:var(--ph);margin:0 auto 18px;background:#fff;box-shadow:0 4px 22px rgba(15,23,42,.18);overflow:hidden}.content{position:absolute;left:var(--ml);right:var(--mr);top:var(--mt);bottom:var(--mb);overflow:hidden;font-size:var(--fs);line-height:1.35}.pno{position:absolute;bottom:5mm;left:0;right:0;text-align:center;font-size:8pt;color:#667085}.blk{margin:0 0 6pt;break-inside:avoid}.blk:hover{outline:1px dashed #9bb8d5;outline-offset:2px}.body{min-height:1em;outline:none}.body:focus{outline:2px solid rgba(31,111,178,.25)}.body table{width:100%;border-collapse:collapse;table-layout:auto}.body th,.body td{border:1px solid #8e9aa7;padding:4px;vertical-align:top;min-width:8mm}.body th:focus,.body td:focus{outline:2px solid #2f6fbd;outline-offset:-2px}.note{font-size:10px;line-height:1.4;background:#fffbe9;border:1px solid #efe0a8;padding:8px;border-radius:7px}@media(max-width:1000px){.main{grid-template-columns:1fr}.side{display:none}.work{padding:8px}}@media print{@page{size:var(--pw) var(--ph);margin:0}html,body{background:#fff!important;overflow:visible!important;height:auto!important}.top,.tb,.side{display:none!important}.main{display:block!important}.work{overflow:visible!important;padding:0!important}.page{margin:0!important;box-shadow:none!important;break-after:page!important}.page:last-child{break-after:auto!important}}`;}
 function editor(payload){let p=JSON.stringify(payload).replace(/</g,'\\u003c');return `<!doctype html><html><head><meta charset="utf-8"><title>${esc(payload.title)} — Live Editor</title><style>${css()}</style></head><body><div class="app"><div class="top"><div class="ttl"><h1 id="title">LIVE DOCUMENT EDITOR</h1><small id="meta"></small></div><button class="btn" id="save">💾 Simpan</button><button class="btn" id="reset">↺ Reset Template</button><button class="btn primary" id="pagesBtn">📄 Periksa Halaman</button><button class="btn good" id="print">🖨 Cetak / Simpan PDF</button></div><div class="tb"><div class="g"><button class="fmt" id="undo">↶</button><button class="fmt" id="redo">↷</button></div><div class="g"><button class="fmt" id="bold"><b>B</b></button><button class="fmt" id="italic"><i>I</i></button><button class="fmt" id="underline"><u>U</u></button></div><div class="g"><select id="heading"><option value="p">Paragraf</option><option value="h1">Heading 1</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option></select></div><div class="g"><button class="fmt" id="al">←</button><button class="fmt" id="ac">↔</button><button class="fmt" id="ar">→</button><button class="fmt" id="aj">☰</button></div><div class="g"><button class="fmt" id="ul">• List</button><button class="fmt" id="ol">1. List</button><button id="pb">Page Break</button></div><div class="g"><button id="radd">Baris +</button><button id="rdel">Baris −</button><button id="cadd">Kolom +</button><button id="merge">Gabung →</button><input id="cw" type="number" value="30" style="width:62px"><button id="cwidth">Lebar mm</button></div></div><div class="main"><aside class="side"><h3>Halaman</h3><label>Kertas</label><select id="paper"><option>A4</option><option>Letter</option></select><label>Orientasi</label><select id="orientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select><div class="g2"><div><label>Atas</label><input id="mt" type="number"></div><div><label>Kanan</label><input id="mr" type="number"></div><div><label>Bawah</label><input id="mb" type="number"></div><div><label>Kiri</label><input id="ml" type="number"></div></div><label>Font dasar pt</label><input id="font" type="number" min="7" max="20" step=".5"><h3>Ekspor</h3><button class="btn" id="draft">⬇ Draft JSON</button><button class="btn" id="docx" disabled style="margin-top:5px">DOCX — belum didukung</button><div class="note" style="margin-top:8px">PDF melalui dialog cetak browser. DOCX sengaja belum diaktifkan.</div><div id="st" class="status">Memuat editor...</div></aside><main class="work"><div id="pages"></div></main><aside class="side r"><h3>Daftar Isi</h3><div id="toc"></div><div class="note" style="margin-top:10px"><b>Data Master aman.</b><br>Revisi editor disimpan terpisah dan tidak menimpa kurikulum LOCK.</div></aside></div></div><script>window.__EDU_PAYLOAD__=${p};<\/script><script>eval(new TextDecoder().decode(Uint8Array.from(atob("${RUNTIME}"),c=>c.charCodeAt(0))));<\/script></body></html>`}
 async function docs(intent=false){let ids=selected();if(!ids.length)return alert('Pilih minimal satu dokumen.');if(typeof syncPrintContextV39==='function')syncPrintContextV39();let pop=window.open('','_blank');if(!pop)return alert('Izinkan pop-up untuk LIVE DOCUMENT EDITOR.');pop.document.write('<p style="font-family:Arial;padding:20px">Menyiapkan editor...</p>');try{let ps=[];for(const id of ids)ps.push(await capture(renderer(id)));let merged=ps.length===1?ps[0]:'<!doctype html><html><body>'+ps.map((h,i)=>{let d=new DOMParser().parseFromString(h,'text/html');return (i?'<div style="break-before:page"></div>':'')+(d.body?.innerHTML||'')}).join('')+'</body></html>';let pay={title:ids.length===1?'EDUGURU — '+ids[0]:'EDUGURU — Paket Dokumen',kind:'document',revisionKey:key('docs:'+ids.join(',')),sourceHash:hash(merged),sourceB64:b64(merged),printIntent:intent};pop.document.open();pop.document.write(editor(pay));pop.document.close()}catch(e){pop.document.open();pop.document.write('<h2>Editor gagal dibuka</h2><p>'+esc(e.message||e)+'</p>');pop.document.close()}}
 function bookSource(type){let build=window.EDUGURU_ORIGINAL_BOOK_BUILD_V4965;if(typeof build!=='function')throw new Error('Original Book Engine V4.9.65 tidak ditemukan.');let sem=E('bookSemV4965');if(!sem||sem.value!=='')return build(type);let old=sem.value;try{sem.value='1';let h1=build(type);sem.value='2';let h2=build(type),p=new DOMParser(),d1=p.parseFromString(h1,'text/html'),d2=p.parseFromString(h2,'text/html'),bk=d1.querySelector('.book')||d1.body,prefix=type==='perangkat'?'P':'A';[...d2.querySelectorAll('.page')].filter(pg=>{let c=pg.dataset.template||pg.id||'',m=c.match(new RegExp('^'+prefix+'(\\d\\d)'));return m&&+m[1]>=6}).forEach(pg=>{let x=d1.importNode(pg,true),c=x.dataset.template||x.id||'';x.id=(x.id||c)+'-SEM2';bk.appendChild(x)});return '<!doctype html>\n'+d1.documentElement.outerHTML}finally{sem.value=old}}
@@ -18820,7 +18835,7 @@ const b64=s=>{const u=new TextEncoder().encode(String(s||""));let x="";for(const
 const hash=s=>{let h=2166136261;for(let i=0;i<String(s).length;i++){h^=String(s).charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16)};
 
 function css(){
-return `:root{--pw:210mm;--ph:297mm;--mt:15mm;--mr:15mm;--mb:17mm;--ml:18mm;--fs:11pt}
+return `:root{--pw:210mm;--ph:330mm;--mt:15mm;--mr:15mm;--mb:17mm;--ml:18mm;--fs:11pt}
 *{box-sizing:border-box}html,body{margin:0;height:100%;font-family:Arial,sans-serif;background:#e7ebf0;color:#1d2733}body{overflow:hidden}
 .app{height:100%;display:grid;grid-template-rows:auto auto 1fr}
 .top{display:flex;align-items:center;gap:7px;padding:8px 10px;background:#173f69;color:#fff}.top .ttl{flex:1}.top h1{font-size:14px;margin:0}.top small{font-size:10px;opacity:.86}
@@ -19018,7 +19033,7 @@ function renderRecap(){const {cid,sem}=scope(),students=stus(cid);const b=E("p10
 function syncDate(){const {cid,sem,n}=scope(),r=rec(cid,sem,n,true);r.date=E("p100Date")?.value||"";r.updatedAt=new Date().toISOString();Object.entries(r.students||{}).forEach(([sid,v])=>mirror(cid,r,sid,v));if(typeof persist==="function")persist()}
 function saveAll(){const {cid,sem,n}=scope(),r=rec(cid,sem,n,true);r.date=E("p100Date")?.value||r.date||new Date().toISOString().slice(0,10);r.completed=true;r.updatedAt=new Date().toISOString();stus(cid).forEach(s=>{const v=get(cid,sem,n,s.id);r.students[s.id]=v;mirror(cid,r,s.id,v)});if(typeof persist==="function")persist();if(typeof queueAutoSyncV455==="function")queueAutoSyncV455();renderRecap();flash("Absensi berhasil disimpan dan data diperbarui!")}
 function render(){if(!E("p100Class"))layout();renderInput();renderRecap()}
-function printIt(){const {cid,sem}=scope(),students=stus(cid),I=state.identity||{},cname=className(cid);let rows=students.map((s,i)=>{let z={H:0,S:0,I:0,A:0};const cells=Array.from({length:TOTAL},(_,j)=>{const v=get(cid,sem,j+1,s.id);z[v]++;return `<td>${v}</td>`}).join("");return `<tr><td>${i+1}</td><td class="nm">${esc(s.name)}</td>${cells}<td>${z.H}</td><td>${z.S}</td><td>${z.I}</td><td>${z.A}</td></tr>`}).join("");const w=window.open("","_blank");if(!w)return alert("Izinkan pop-up browser.");w.document.write(`<html><head><title>Presensi ${esc(cname)}</title><style>@page{size:A4 landscape;margin:5mm}body{font-family:Arial;margin:0;font-size:6pt}h1,h2{text-align:center;margin:2px}h1{font-size:12pt}h2{font-size:8pt}.meta{text-align:center;margin:2mm 0 3mm}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:.5px solid #222;text-align:center;padding:1px}.nm{width:38mm;text-align:left}</style></head><body><h1>DAFTAR HADIR PESERTA DIDIK</h1><h2>${esc(I.subject||"Bahasa Inggris")} — ${esc(cname)}</h2><div class="meta">Semester ${esc(sem)} • Tahun Pelajaran ${esc(I.year||"")}</div><table><thead><tr><th>No</th><th class="nm">Nama</th>${Array.from({length:TOTAL},(_,i)=>`<th>${i+1}</th>`).join("")}<th>H</th><th>S</th><th>I</th><th>A</th></tr></thead><tbody>${rows}</tbody></table></body></html>`);w.document.close();setTimeout(()=>{try{w.print()}catch(e){}},200)}
+function printIt(){const {cid,sem}=scope(),students=stus(cid),I=state.identity||{},cname=className(cid);let rows=students.map((s,i)=>{let z={H:0,S:0,I:0,A:0};const cells=Array.from({length:TOTAL},(_,j)=>{const v=get(cid,sem,j+1,s.id);z[v]++;return `<td>${v}</td>`}).join("");return `<tr><td>${i+1}</td><td class="nm">${esc(s.name)}</td>${cells}<td>${z.H}</td><td>${z.S}</td><td>${z.I}</td><td>${z.A}</td></tr>`}).join("");const w=window.open("","_blank");if(!w)return alert("Izinkan pop-up browser.");w.document.write(`<html><head><title>Presensi ${esc(cname)}</title><style>@page{size:210mm 330mm;margin:5mm}body{font-family:Arial;margin:0;font-size:6pt}h1,h2{text-align:center;margin:2px}h1{font-size:12pt}h2{font-size:8pt}.meta{text-align:center;margin:2mm 0 3mm}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:.5px solid #222;text-align:center;padding:1px}.nm{width:38mm;text-align:left}</style></head><body><h1>DAFTAR HADIR PESERTA DIDIK</h1><h2>${esc(I.subject||"Bahasa Inggris")} — ${esc(cname)}</h2><div class="meta">Semester ${esc(sem)} • Tahun Pelajaran ${esc(I.year||"")}</div><table><thead><tr><th>No</th><th class="nm">Nama</th>${Array.from({length:TOTAL},(_,i)=>`<th>${i+1}</th>`).join("")}<th>H</th><th>S</th><th>I</th><th>A</th></tr></thead><tbody>${rows}</tbody></table></body></html>`);w.document.close();setTimeout(()=>{try{w.print()}catch(e){}},200)}
 function boot(){layout();render();const badge=E("v4966VersionBadge");if(badge)badge.textContent="EDUGURU V4.9.102";document.title=document.title.replace(/V4\.9\.99/g,"V4.9.102")}
 document.addEventListener("click",e=>{const s=e.target.closest?.("[data-p100-status]");if(s){const {cid,sem,n}=scope();put(cid,sem,n,s.dataset.sid,s.dataset.p100Status);renderInput();renderRecap();return}if(e.target.closest?.("#p100Save")){saveAll();return}if(e.target.closest?.("#p100Print")){printIt();return}if(e.target.closest?.("[data-p100-close]")){E("p100Flash")?.classList.remove("show");return}},true);
 document.addEventListener("change",e=>{if(e.target?.id==="p100Class"||e.target?.id==="p100Sem"||e.target?.id==="p100Meeting"){render();return}if(e.target?.id==="p100Date"){syncDate();renderRecap();return}},true);
@@ -19127,7 +19142,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
  window.EDUGURU_PRESENSI_ANDROID_SCROLL_LOCK_V49102={refresh:normalizePresensiScroll};
 })();
 </script>
-<!-- V4.9.107: duplicated raw-code block removed -->
+<!-- V4.9.110: duplicated raw-code block removed -->
 <script id="eduguru-v49103-print-a4-engine">
 (function(){
 "use strict";
@@ -19163,7 +19178,7 @@ function openPrint(title,pages,kind){
  const w=window.open("","_blank");if(!w)return alert("Izinkan pop-up browser.");
  const isAtt=kind==="attendance";
  const css=`
- @page{size:A4 landscape;margin:4.5mm}
+ @page{size:210mm 330mm;margin:4.5mm}
  *{box-sizing:border-box}
  html,body{margin:0;padding:0;background:#fff;color:#111;font-family:Arial,Helvetica,sans-serif}
  body{width:auto}
@@ -19304,7 +19319,7 @@ function popup(title,inner,kind){
  const w=window.open('','_blank'); if(!w)return alert('Izinkan pop-up browser untuk mencetak.');
  const attMode=kind==='attendance';
  const css=`
- @page{size:A4 portrait;margin:4mm}
+ @page{size:210mm 330mm;margin:4mm}
  *{box-sizing:border-box}
  html,body{margin:0!important;padding:0!important;background:#fff!important;color:#111;font-family:Arial,Helvetica,sans-serif}
  body{width:202mm!important;max-width:202mm!important;overflow:visible!important}
@@ -19388,7 +19403,7 @@ window.EDUGURU_PRINT_A4_V49105={attendance:printAttendance,grades:printGrades};
 
 
 <!-- =========================================================
- EDUGURU V4.9.107 — STABLE PRINT SYSTEM
+ EDUGURU V4.9.110 — STABLE PRINT SYSTEM
  Basis: pertahankan mesin Buku Terpadu V4.9.68/V4.9.99 yang sudah stabil.
  Prinsip:
  1) Semua output A4 Portrait.
@@ -19398,7 +19413,7 @@ window.EDUGURU_PRINT_A4_V49105={attendance:printAttendance,grades:printGrades};
 ========================================================= -->
 <style id="eduguru-v49106-stable-print-global">
 @media print{
-  @page{size:A4 portrait;margin:12mm 12mm 13mm 14mm}
+  @page{size:210mm 330mm;margin:12mm 12mm 13mm 14mm}
   html,body{width:auto!important;min-width:0!important;max-width:none!important;height:auto!important;margin:0!important;padding:0!important;background:#fff!important;overflow:visible!important}
   body{font-family:Arial,Helvetica,sans-serif!important;font-size:10.2pt!important;line-height:1.34!important;color:#111!important}
   .app{display:block!important;min-height:0!important}
@@ -19445,7 +19460,7 @@ function openPrint(title,body,css){
  w.document.close();
 }
 function commonCss(){return `
- @page{size:A4 portrait;margin:0}
+ @page{size:210mm 330mm;margin:0}
  *{box-sizing:border-box}
  html,body{margin:0!important;padding:0!important;width:210mm!important;background:#fff!important;color:#111;font-family:Arial,Helvetica,sans-serif;overflow:visible!important}
  .sheet{width:210mm;height:297mm;min-height:297mm;max-height:297mm;margin:0;padding:10mm 8mm 9mm 8mm;overflow:hidden;break-after:page;page-break-after:always;background:#fff}
@@ -19480,12 +19495,105 @@ function bind(){
  if(window.EDUGURU_PRESENSI_V49100)window.EDUGURU_PRESENSI_V49100.print=printAttendance;
  if(window.EDUGURU_GRADE_V4974)window.EDUGURU_GRADE_V4974.print=printGrades;
  const p=E('p100Print');if(p&&!p.dataset.v49106){const n=p.cloneNode(true);n.dataset.v49106='1';p.replaceWith(n);n.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();printAttendance()},true)}
- const badge=E('v4966VersionBadge');if(badge)badge.textContent='EDUGURU V4.9.107';
- const hb=E('headerVersionV4980');if(hb)hb.textContent='V4.9.107';
- document.title=document.title.replace(/V4\.9\.10[0-5]/g,'V4.9.107').replace(/V4\.9\.99/g,'V4.9.107');
- setTimeout(()=>{const n=document.querySelector('#pc38-books .notice.ok');if(n)n.innerHTML='<b>📚 Buku Terpadu EDUGURU V4.9.107</b><br>Margin dan tipografi Buku Terpadu stabil dipertahankan. Semua cetak A4 Portrait; dokumen biasa mengalir sesuai isi, sedangkan Daftar Hadir dan Rekap Nilai dipadatkan menjadi satu halaman per kelas/semester.'},500);
+ const badge=E('v4966VersionBadge');if(badge)badge.textContent='EDUGURU V4.9.110';
+ const hb=E('headerVersionV4980');if(hb)hb.textContent='V4.9.110';
+ document.title=document.title.replace(/V4\.9\.10[0-5]/g,'V4.9.110').replace(/V4\.9\.99/g,'V4.9.110');
+ setTimeout(()=>{const n=document.querySelector('#pc38-books .notice.ok');if(n)n.innerHTML='<b>📚 Buku Terpadu EDUGURU V4.9.110</b><br>Margin dan tipografi Buku Terpadu stabil dipertahankan. Semua cetak A4 Portrait; dokumen biasa mengalir sesuai isi, sedangkan Daftar Hadir dan Rekap Nilai dipadatkan menjadi satu halaman per kelas/semester.'},500);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,10800),{once:true});else setTimeout(bind,700);
 window.EDUGURU_PRINT_STABLE_V49106={attendance:printAttendance,grades:printGrades};
 })();
 </script>
+
+<style id="eduguru-simple-print-v4109">#simplePrintV4109{display:block!important}#simplePrintLegacyV4109{display:none!important}.sp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.sp-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.sp-actions button{flex:1;min-width:145px;padding:13px;font-weight:750;border-radius:10px;border:0;cursor:pointer}.sp-primary{background:#16835d;color:white}.sp-blue{background:#2457d6;color:white}.sp-status{padding:10px;border-radius:8px;background:#edf9f4;margin-top:12px;min-height:38px}@media(max-width:650px){.sp-grid{grid-template-columns:1fr}}</style>
+<script id="eduguru-simple-print-v4109">
+(function(){
+function init(){var root=document.getElementById('print');if(!root||document.getElementById('simplePrintV4109'))return;
+var legacy=document.createElement('div');legacy.id='simplePrintLegacyV4109';legacy.style.display='none';while(root.firstChild)legacy.appendChild(root.firstChild);root.appendChild(legacy);
+var ui=document.createElement('div');ui.id='simplePrintV4109';ui.className='card';ui.innerHTML='<div style="display:flex;align-items:center;gap:12px;margin-bottom:18px"><div style="font-size:34px">🖨️</div><div><h2 style="margin:0">PUSAT CETAK</h2><div style="font-size:13px;color:#667085">Sederhana • A4 Portrait • Siap cetak • Tanpa editor</div></div></div><div class="sp-grid"><label>Dokumen<select id="spDoc"><option value="cover">Sampul</option><option value="curriculum" selected>CP / TP / ATP / KKTP</option><option value="allocation">Alokasi Waktu & Jadwal</option><option value="planning">PROTA / PROMES / Peta Pertemuan</option><option value="module">Modul Ajar / RPP</option><option value="journal">Agenda / Jurnal</option><option value="attendance">Daftar Hadir</option><option value="grades">Nilai / Rekap</option><option value="analysis">Analisis & Tindak Lanjut</option><option value="book-device">Buku Terpadu Perangkat</option><option value="book-admin">Buku Terpadu Administrasi</option></select></label><label>Kelas<select id="spClass"><option value="">Mengikuti data aplikasi</option></select></label><label>Semester<select id="spSemester"><option value="1">Semester I (Ganjil)</option><option value="2">Semester II (Genap)</option></select></label><label>Chapter<select id="spChapter"><option value="">Mengikuti data aplikasi</option></select></label></div><div class="sp-actions"><button type="button" class="sp-blue" id="spPreview">◉ Preview A4</button><button type="button" class="sp-primary" id="spPrint">▤ PDF / Cetak</button><button type="button" class="sp-blue" id="spWord">📝 Word</button></div><div class="sp-status" id="spStatus">Pilih dokumen, lalu gunakan Preview A4 atau PDF / Cetak.</div>';
+root.appendChild(ui);
+var $=function(id){return document.getElementById(id)},status=function(s){$('spStatus').textContent=s};
+function populate(){var st=window.state||{},cl=st.classes||[];cl.forEach(function(c){var o=document.createElement('option');o.value=c.id||c.classId||c.name;o.textContent=c.name||c.label||c.id;$('spClass').appendChild(o)});var ch=(st.planningV32&&st.planningV32.chapters)||[];ch.forEach(function(c,i){var o=document.createElement('option');o.value=c.id||c.chapter||i+1;o.textContent=c.title||c.name||('Chapter '+(i+1));$('spChapter').appendChild(o)})}
+function sync(){var cid=$('spClass').value,sem=$('spSemester').value,ch=$('spChapter').value;[['pcClassV39',cid],['pcSemesterV39',sem],['pcChapterV39',ch]].forEach(function(a){var el=$(a[0]);if(el&&a[1]!==''&&Array.from(el.options||[]).some(function(o){return o.value===a[1]}))el.value=a[1]});var checks=document.querySelectorAll('.pcDocCheckV39');checks.forEach(function(c){c.checked=false});var target={cover:'cover',curriculum:'curriculum',allocation:'allocation',planning:'planning',module:'module',journal:'journal',attendance:'attendance',grades:'grades',analysis:'analysis'}[$('spDoc').value];if(target){var el=Array.from(checks).find(function(c){return c.value===target||c.dataset.doc===target||c.id.toLowerCase().indexOf(target)>=0});if(el)el.checked=true}if(typeof window.renderPrintDocsV39==='function')try{window.renderPrintDocsV39()}catch(e){}}
+function run(print){sync();var id=$('spDoc').value;if(id==='book-device'||id==='book-admin'){if(typeof window.openIntegratedBookV4965==='function'){window.openIntegratedBookV4965(id==='book-device'?'device':'admin',!!print);status(print?'Perintah cetak Buku Terpadu dikirim.':'Buku Terpadu dibuka untuk pratinjau.')}else status('Fitur Buku Terpadu tidak tersedia pada versi ini.');return}
+var map={cover:'previewCoverV38',curriculum:'printCurriculumV39',allocation:'printAllocationV421',planning:'previewPlanningV32',module:'previewModuleV33',journal:'previewJournalV34',attendance:'previewAttendanceV35',grades:'previewGradesV36',analysis:'previewAnalysisV37'};var fn=window[map[id]];if(!fn){status('Fungsi dokumen belum tersedia: '+id);return}try{fn();status(print?'Dialog cetak dipanggil. Pilih “Save as PDF” untuk menyimpan PDF.':'Preview dokumen dipanggil. Jika tidak muncul, izinkan pop-up untuk file lokal.')}catch(e){status('Gagal membuka dokumen: '+e.message)}}
+$('spPreview').addEventListener('click',function(){run(false)});$('spPrint').addEventListener('click',function(){run(true)});$('spWord').addEventListener('click',function(){run(false);status('Untuk Word: pada preview yang terbuka gunakan Simpan sebagai Word bila tersedia. Ekspor .docx langsung belum tersedia pada renderer ini.')});$('spDoc').addEventListener('change',sync);populate();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+
+<!-- EDUGURU V4.9.110: final F4 portrait print normalization -->
+<style id="eduguru-v49110-f4-final">
+@media print {
+  @page { size: 210mm 330mm; margin: 12mm 12mm 13mm 14mm; }
+  html, body { width: auto !important; max-width: none !important; min-width: 0 !important; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+</style>
+
+<script id="eduguru-manual-meeting-date-v49111">
+(function(){
+  function parseManualMeetingDate(raw){
+    const v=String(raw||'').trim(); if(!v) return '';
+    let m;
+    if((m=v.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})$/))){
+      const dd=+m[1], mm=+m[2], yy=+m[3];
+      const d=new Date(yy,mm-1,dd);
+      if(d.getFullYear()!==yy||d.getMonth()!==mm-1||d.getDate()!==dd) return null;
+      return `${yy}-${String(mm).padStart(2,'0')}-${String(dd).padStart(2,'0')}`;
+    }
+    if((m=v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/))){
+      const yy=+m[1],mm=+m[2],dd=+m[3],d=new Date(yy,mm-1,dd);
+      if(d.getFullYear()!==yy||d.getMonth()!==mm-1||d.getDate()!==dd) return null;
+      return `${yy}-${String(mm).padStart(2,'0')}-${String(dd).padStart(2,'0')}`;
+    }
+    return null;
+  }
+  function displayManualMeetingDate(iso){
+    const m=String(iso||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    return m?`${m[3]}/${m[2]}/${m[1]}`:String(iso||'');
+  }
+  window.renderMeetingStatusV455=function(){
+    const cid=document.getElementById('attendanceClassV35')?.value||'', sem=document.getElementById('attendanceSemV455')?.value||'1';
+    const sel=document.getElementById('meetingSelectV455'), date=document.getElementById('meetingDateV4917'), st=document.getElementById('meetingStatusV455'), nums=document.getElementById('meetingNumbersV455');
+    if(!sel) return;
+    const n=+(sel.value||1);
+    const old=String(n); sel.innerHTML=Array.from({length:25},(_,i)=>`<option value="${i+1}">Pertemuan ${i+1}</option>`).join(''); sel.value=old;
+    const r=typeof attRec==='function'?attRec(cid,sem,n,true):null;
+    if(date){date.value=/^\d{4}-\d{2}-\d{2}$/.test(String(r?.date||''))?displayManualMeetingDate(r.date):'';date.setCustomValidity('');}
+    const calendar=document.getElementById('meetingDateCalendarV49118');
+    if(calendar){calendar.value=/^\d{4}-\d{2}-\d{2}$/.test(String(r?.date||''))?r.date:'';}
+    if(st) st.textContent=r?.date?`✓ Pertemuan ${n} • ${displayManualMeetingDate(r.date)}`:`Pertemuan ${n} belum memiliki tanggal.`;
+    if(nums){nums.className='v4973-meeting-grid';nums.innerHTML=Array.from({length:25},(_,i)=>{const k=i+1,rr=typeof attRec==='function'?attRec(cid,sem,k,false):null,done=!!rr?.date;return `<button type="button" class="v4973-meeting-chip ${done?'done':''} ${k===n?'active':''}" data-v4973-meeting="${k}">P${k}${done?' ✓':''}</button>`}).join('');}
+  };
+  window.syncMeetingDateV4917=function(){
+    const cid=document.getElementById('attendanceClassV35')?.value||'',sem=document.getElementById('attendanceSemV455')?.value||'1',n=+(document.getElementById('meetingSelectV455')?.value||1),inp=document.getElementById('meetingDateV4917');
+    if(!cid||!sem||!n||!inp)return;
+    const iso=parseManualMeetingDate(inp.value);
+    if(iso===null){inp.setCustomValidity('Format tanggal tidak valid. Gunakan DD/MM/YYYY atau YYYY-MM-DD.');inp.reportValidity();return;}
+    inp.setCustomValidity('');
+    const r=attRec(cid,sem,n,true);r.date=iso;r.updatedAt=new Date().toISOString();
+    Object.entries(r.students||{}).forEach(([sid,v])=>mirrorMonthly(cid,r,sid,v));
+    if(typeof persist==='function')persist();
+    window.renderMeetingStatusV455();
+    if(typeof renderAttendanceRecap==='function')renderAttendanceRecap();
+  };
+  window.syncMeetingDateFromCalendarV49118=function(){
+    const calendar=document.getElementById('meetingDateCalendarV49118');
+    const textInput=document.getElementById('meetingDateV4917');
+    if(!calendar||!textInput)return;
+    textInput.setCustomValidity('');
+    textInput.value=calendar.value?displayManualMeetingDate(calendar.value):'';
+    window.syncMeetingDateV4917();
+  };
+  document.addEventListener('DOMContentLoaded',function(){
+    const inp=document.getElementById('meetingDateV4917');
+    if(inp){inp.type='text';inp.inputMode='numeric';inp.autocomplete='off';inp.placeholder='DD/MM/YYYY';inp.title='Ketik tanggal DD/MM/YYYY atau YYYY-MM-DD';}
+    const calendar=document.getElementById('meetingDateCalendarV49118');
+    if(calendar){calendar.type='date';calendar.autocomplete='off';}
+  });
+})();
+</script>
+</body>
+</html>
